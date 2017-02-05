@@ -1,0 +1,11 @@
+﻿@model DateTime?
+@Html.TextBox("", (Model.HasValue ? Model.Value.ToString("yyyy/MM/dd") : string.Empty), new { @class = "form-control Start" })
+
+
+<script src="~/Content/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript">
+    $('.Start').datetimepicker({
+        format: 'Y/m/d',
+        timepicker: false
+    });
+</script>

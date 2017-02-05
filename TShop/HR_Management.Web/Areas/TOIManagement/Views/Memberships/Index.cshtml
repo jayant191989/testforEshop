@@ -1,0 +1,81 @@
+﻿@model IEnumerable<HR_Management.Models.Membership>
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Membership List</h2>
+        <hr />
+        <p class="text-danger">@TempData["MessageToClient"]</p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-condensed table-bordered" id="dataTables">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MembershipName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SchemeStartDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SchemeEndDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Discount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fees)
+                    </th>
+                    <th>
+                        <p>
+                            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-xs" })
+                        </p>
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MembershipName)
+                        </td>
+                        @if (item.SchemeStartDate == null)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SchemeStartDate, "VeryLongDate")
+                            </td>
+                        }
+                        @if (item.SchemeEndDate == null)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SchemeEndDate, "VeryLongDate")
+                            </td>
+                        }
+                       
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td>
+                            <text>Rs.</text>   @Html.DisplayFor(modelItem => item.Fees)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Edit", "Memberships", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) |
+                            @Html.ActionLink("Delete", "Delete", "Memberships", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>
+</div>

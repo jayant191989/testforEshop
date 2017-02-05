@@ -1,0 +1,168 @@
+﻿@model HR_Management.Web.ViewModels.SalaryViewModel
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.save-record').on('click', function () {
+            var ModuleMode = [];
+
+            $('.tBody tr').each(function () {
+                var fullname = $(this).find('.fullname').val();
+                var workhours = $(this).find('.workhours').val();
+                var rateperhour = $(this).find('.rateperhour').val();
+                var overtimehours = $(this).find('.overtimehours').val();
+                var rateperhourovertime = $(this).find('.rateperhourovertime').val();
+                var date = $('#Date').val();
+                var salaryid = $('#Id').val();
+                ModuleMode.push({ salaryid: salaryid, date: date, fullname: fullname, workhours: workhours, rateperhour: rateperhour, overtimehours: overtimehours, rateperhourovertime: rateperhourovertime });
+            })
+
+            $.ajax({
+                url: "/Salaries/Save",
+                data: {
+                    SalaryList: JSON.stringify(ModuleMode)
+                },
+                type: 'POST',
+                success: function (data) {
+                    if (data.success) {
+                        $("#MessageToClient").text("Salary Was Saved SuccessFully");
+                    } else {
+                        $("#MessageToClient").text("The data was not updated.");
+                    }
+                },
+                error: function (xhr, data) {
+                    $(".ajax-loading-block-window").hide();
+                    alert(xhr.responseText)
+                }
+            });
+
+        });
+    });
+</script>
+
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Salary Detail</h2>
+        <hr />
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <p id="MessageToClient" class="text-success"></p>
+                <div class="form-group form-group-sm col-md-3">
+                    @Html.DisplayFor(model => model.Date, "VeryLongDate")
+                    @Html.HiddenFor(x => x.Date)
+                    @Html.HiddenFor(model => model.Id)
+                </div>
+                <br />
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label>Full Name</label>
+                            </th>
+                            <th>
+                                <label>Work Hours</label>
+                            </th>
+                            <th>
+                                <label>Rate Per Hour</label>
+                            </th>
+                            <th>
+                                <label>Total WorkHours</label>
+                            </th>
+                            <th>
+                                <label>Overtime Hours</label>
+                            </th>
+                            <th>
+                                <label>Rate Per Overtime Hours</label>
+                            </th>
+                            <th>
+                                <label>Total Overtime</label>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tBody">
+                        @if (Model.EmployeeSalaryViewModel == null)
+                        {
+
+                        }
+                        else
+                        {
+                            foreach (var item in Model.EmployeeSalaryViewModel)
+                            {
+                                <tr>
+                                    <td class="">
+                                        @Html.DisplayFor(modelItem => item.FullName)
+                                        @Html.HiddenFor(x => item.FullName, new { @class = "fullname" })
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WorkHours)
+                                        @Html.HiddenFor(x => item.WorkHours, new { @class = "workhours" })
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RatePerHour)
+                                        @Html.HiddenFor(x => item.RatePerHour, new { @class = "rateperhour" })
+                                    </td>
+                                    <td>
+                                        @if (item.WorkHourTotal == null)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            <text>Rs.</text>  @Html.DisplayFor(modelItem => item.WorkHourTotal)
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OverTimeHours)
+                                        @Html.HiddenFor(x => item.OverTimeHours, new { @class = "overtimehours" })
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RatePerHourOvertime)
+                                        @Html.HiddenFor(x => item.RatePerHourOvertime, new { @class = "rateperhourovertime" })
+                                    </td>
+                                    <td>
+                                        @if (item.OverTimeTotal == null)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            <text>Rs.</text>  @Html.DisplayFor(modelItem => item.OverTimeTotal)
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total :-</b> <text>Rs.</text><b>@Model.GrandTotalWorkHours</b> </td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Total :-</b> <text>Rs.</text><b>@Model.GrandTotalOverTimeHours</b></td>
+                            </tr>
+                        }
+                      
+                    </tbody>
+                </table>
+                @*<div class="form-group">
+                    <div class="col-md-10">
+                        <input type="button" id="btnSave" value="Save" class="btn btn-success save-record" />
+                    </div>
+                </div>*@
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

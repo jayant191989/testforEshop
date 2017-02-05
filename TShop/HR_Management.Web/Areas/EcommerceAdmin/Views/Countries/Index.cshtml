@@ -1,0 +1,170 @@
+﻿@model IEnumerable<EyePolice.Model.Models.Country>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<style>
+    td.details-control {
+        background: url('../../Content/DataTables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/DataTables/images/details_close.png') no-repeat center center;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        var table = $('#example2').DataTable({
+            "ajax": '/Countries/GetCountries',
+            "columns": [
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                { "data": "Name" },
+                {
+                    'data': 'Options',
+                    'render': function (data, type, row) {
+                        return '<a href=/Admin/Countries/Edit/' + row.Id + '  class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' + '<a href=/Admin/Countries/Delete/' + row.Id + '  class="glyphicon glyphicon-remove" >' + '</a>'
+                    }
+                },
+            ],
+            "order": [[1, 'asc']]
+        });
+
+        //$('#example2 tbody tr').each(function () {
+        //    var text = $(this).find("td").eq(0).html();
+        //    if (text != "Total") {
+        //        var AccountId = $(this).find(".oaid").val();
+        //        var DebitAmount = parseFloat($(this).find("td").eq(1).html()).toFixed(2);
+        //        OrderDet2.push({ 'AccountId': AccountId, 'DebitAmount': DebitAmount });
+        //    }
+        //});
+
+
+        function format(d) {
+            var tbl = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="table table-hover table-striped table-condensed table-bordered tbldetl">';
+            tbl += '<tr>';
+            //tbl += "<td class='col-md-2'>Id</td>";
+            tbl += "<td class='col-md-2'>Name</td>";
+            tbl += '</tr>';
+            var flag = false;
+            $.each(d.ViolationCategoryViewModels, function (i) {
+                var Id = ''
+                var Name = '';
+                $.each(d.ViolationCategoryViewModels[i], function (key, val) {
+                    if (key == 'Id') {
+                        Id = val;
+                    }
+                    else if (key == 'Name') {
+                        Name = val;
+                    }
+                });
+                tbl += '<tr>';
+                //tbl += '<td>' + Id + ' </td>';
+                tbl += '<td>' + Name + ' </td>';
+                tbl += '</tr>';
+                flag = true;
+            });
+            if (flag == false) {
+                tbl += '<tr>';
+                tbl += '<td colspan="11">No record found</td>';
+                tbl += '</tr>';
+            }
+            tbl + '</table>';
+            return tbl;
+        }
+
+
+        // Add event listener for opening and closing details
+        $('#example2 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+    })
+
+    //var oTable = $('#datatable_paging').dataTable({
+    //    "bDestroy": true,
+    //    "bStateSave": true,
+    //    "aaSorting": [[1, "asc"]],
+    //    "bProcessing": true,
+    //    "bServerSide": true,
+    //    "sAjaxSource": "#### my php file path ####",
+    //    "bJQueryUI": true,
+    //    "bAutoWidth": false,
+    //    "bFilter": true,
+    //    "bLengthChange": true,
+    //    "bPaginate": true,
+    //    "bSort": true,
+    //    "iDisplayLength": 10,
+    //    "bInfo": true,
+    //    "sPaginationType": "full_numbers",
+    //    "aoColumns": [
+    //        { "sTitle": "Id", "sWidth": "33%" },
+    //        { "sTitle": "Name", "sWidth": "33%" },
+    //        { "sTitle": "Email", "sWidth": "33%" }
+    //    ]
+    //})
+
+
+</script>
+<section class="content">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Countries</h3>
+            <div class="pull-right">
+                @Html.ActionLink("Add Country", "Create", "Countries", new { @class = "btn btn-primary btn-xs custombackbutton" })
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="table-responsive">
+                <table id="example2" class="table table-hover table-striped table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                <p>
+                                
+                                </p>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    @*@foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit","Countries" , new { id = item.Id })" class="glyphicon glyphicon-pencil"></a>
+                                    <a href="@Url.Action("Delete","Countries" , new { id = item.Id  })" class="glyphicon glyphicon-remove"></a>
+                                </td>
+                            </tr>
+                        }*@
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

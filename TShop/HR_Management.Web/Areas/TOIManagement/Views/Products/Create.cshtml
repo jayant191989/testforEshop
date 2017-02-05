@@ -1,0 +1,277 @@
+﻿@model HR_Management.Web.ViewModels.ProductViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Create Product</h2>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">General Detail</a></li>
+                    @*<li><a data-toggle="tab" href="#category">Categories</a></li>*@
+                    <li><a data-toggle="tab" href="#menu1">Attributes</a></li>
+                    <li><a data-toggle="tab" href="#menu2">Details</a></li>
+                    <li><a data-toggle="tab" href="#menu3">Specifications</a></li>
+
+                </ul>
+                <div class="ibox">
+                    <div class="ibox-content">
+                        @using (Html.BeginForm("Create", "Products", FormMethod.Post, new { id = "form", @class = "wizard-big", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @*<form id="form" action="@Url.Action("Create", "Products")" class="wizard-big">*@
+                            @*@Html.HiddenFor(p=>p.ProductCategoryId)*@
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+                                    <fieldset>
+                                        <h2>Product Information</h2>
+                                        <div class="row">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            <div class="form-horizontal">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.ProductCategoryId, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.DropDownListFor(model => model.ProductCategoryId, new SelectList(ViewBag.ProductCategoryId, "Value", "Text"), "-Select Category-", new { id = "ddlProductCategoryId", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.ProductCategoryId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.ModelNumber, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.ModelNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.ModelNumber, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.DiscountPerUnitInPercent, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.DiscountPerUnitInPercent, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.DiscountPerUnitInPercent, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.SalePrice, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.EditorFor(model => model.SalePrice, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.SalePrice, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="ctrlImageUrl" class="form-group">
+                                                        <label class="control-label col-md-4">Image Url</label>
+                                                        <div class="col-md-6">
+                                                            @Html.TextBoxFor(model => model.MainImageNameFile, new { data_cmsmodulecontrolid = "", type = "file", id = "txtImageUrl", placeholder = "Enter Title", @class = "form-control" })
+                                                            <span>@Html.ValidationMessageFor(model => model.MainImageNameFile, "", new { @class = "text-danger" })</span>
+                                                            <div class="col-md-offset-4">
+                                                                <img id="blah" src="~/Images/no-image.png" style="height: 100px; width: 100px" />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.IsAvailableForSale, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.CheckBoxFor(m => m.IsAvailableForSale, new { @class = "checkbox" })
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.ShowOnWebsite, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.CheckBoxFor(m => m.ShowOnWebsite, new { @class = "checkbox" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Is_BestSeller, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.CheckBoxFor(m => m.Is_BestSeller, new { @class = "checkbox" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Is_FeaturedProduct, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.CheckBoxFor(m => m.Is_FeaturedProduct, new { @class = "checkbox" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Is_NewArrival, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-6">
+                                                            @Html.CheckBoxFor(m => m.Is_NewArrival, new { @class = "checkbox" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                @*<div id="category" class="tab-pane fade">
+                                        <fieldset>
+                                            <h2>category</h2>
+                                            @foreach (var category in Model.CategoryTags)
+                                            {
+                                                <ul>
+                                                    <li class="checkbox">
+                                                        <input type="checkbox" checked="@category.IsChecked" value=@category.Id name=CategorySelectedOnView>
+                                                        @category.Name
+                                                    </li>
+                                                </ul>
+                                            }
+                                        </fieldset>
+                                    </div>*@
+                                <div id="menu1" class="tab-pane fade">
+                                    <fieldset>
+                                        <h2>Product Properties </h2>
+                                        <div id="attributehtml"></div>
+                                    </fieldset>
+                                </div>
+                                <div id="menu2" class="tab-pane fade">
+                                    <fieldset>
+
+                                        <div class="compose-editor" style="margin-top:10px;">
+                                            @*<textarea id="text-editor" class="ckeditor" placeholder="Enter text ..." rows="25"></textarea>*@
+                                            @*@Html.TextAreaFor(model => model.Discription, 25, 25, new { @class = "ckeditor", id = "text-editor" })*@
+                                            @*<div class="summernote">summernote 1</div>*@
+                                            @Html.TextAreaFor(model => model.Discription, 50, 50, new { @class = "summernote" })
+                                        </div>
+
+                                    </fieldset>
+                                </div>
+                                <div id="menu3" class="tab-pane fade">
+                                    <fieldset>
+                                        <div class="compose-editor" style="margin-top:10px;">
+                                            @*<textarea id="text-editor" class="ckeditor" placeholder="Enter text ..." rows="25"></textarea>*@
+                                            @*@Html.TextAreaFor(model => model.Specifications, 25, 25, new { @class = "ckeditor", id = "editor2" })*@
+                                            @*<div class="summernote">summernote 2</div>*@
+                                            @Html.TextAreaFor(model => model.Specifications, 50, 50, new { @class = "summernote" })
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+
+                            <button id="Submit" class="btn btn-primary pull-right">Submit</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //CKEDITOR.replace('editor2', {
+        //    height: 260,
+        //    /* Default CKEditor styles are included as well to avoid copying default styles. */
+        //    //contentsCss: ['http://cdn.ckeditor.com/4.6.1/full-all/contents.css', 'http://sdk.ckeditor.com/samples/assets/css/classic.css']
+        //});
+        $('.summernote').summernote({
+            height: 400,   //set editable area's height
+            codemirror: { // codemirror options
+                theme: 'monokai'
+            }
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function () {
+            $("#txtImageUrl")
+                .change(function () {
+
+                    var validExtensions = ['jpg', 'png', 'jpeg']; //array of valid extensions
+                    var fileName = $("#txtImageUrl").val();
+                    var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+
+                    var size = parseFloat($("#txtImageUrl")[0].files[0].size / 1024).toFixed(2);
+                    if ($.inArray(fileNameExt, validExtensions) === -1) {
+                        showNotification(" Invalid file type,Please upload a .jpg,.png,jpeg file !", "failed");
+                        $('#blah').attr('src', "/Images/no-image.png");
+                        $("#txtImageUrl").val("");
+                        return false;
+                    }
+                    if (size >= 1024) {
+                        showNotification('Upload file limti is 1 mb ', "failed");
+                        $("#txtImageUrl").val("");
+                        return false;
+                    }
+                    readURL(this);
+                    return false;
+                });
+        })
+
+        $('input:checkbox').change(function () {
+            if ($(this).is(':checked'))
+                $(this).addClass('selected');
+            else
+                $(this).removeClass('selected')
+        });
+
+        $("#ddlProductCategoryId").change(function () {
+            // alert($('#ddlProductCategoryId option:selected').val())
+            $.ajax({
+                url: "/TOIManagement/Products/_GetAttributeAndOptionsByCategory",
+                type: "POST",
+                data: { 'productCategoryId': $('#ddlProductCategoryId option:selected').val() },
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        $('#attributehtml').html(data.ModelString);
+                    }
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            });
+        })
+
+    </script>
+}

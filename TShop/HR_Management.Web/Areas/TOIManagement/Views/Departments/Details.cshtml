@@ -1,0 +1,35 @@
+﻿@model HR_Management.Models.Department
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div id="content" class="col-lg-10 col-sm-10">
+    <h2>Department Details</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Branch.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Branch.Name)
+        </dd>
+    </dl>
+</div>
+<p>  
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default btn-xs" })
+</p>

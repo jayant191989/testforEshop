@@ -1,0 +1,42 @@
+﻿@model HR_Management.ShoppingCartBL.ViewModels.CartList
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="category.html">Category</a></li>
+                <li class="active">Cart</li>
+            </ul>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7 col-xs-6 col-xxs-12 text-center-xs">
+            <h1 class="section-title-inner">
+                <span>
+                    <i class="glyphicon glyphicon-shopping-cart"></i> Shopping cart
+                </span>
+            </h1>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar col-xs-6 col-xxs-12 text-center-xs">
+            <h4 class="caps"><a href="category.html"><i class="fa fa-chevron-left"></i> Back to shopping </a></h4>
+        </div>
+    </div>
+    <!--/.row-->
+    <div class="row" id="indexListing">
+        @Html.Action("GetCartResultList", "ShoppingCart", new { request = "", isAjaxRequest = false })
+    </div>
+
+
+    <div style="clear:both"></div>
+</div>
+<script>
+
+</script>

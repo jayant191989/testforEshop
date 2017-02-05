@@ -1,0 +1,126 @@
+﻿@model  HR_Management.Web.ViewModels.ContactPaymentHistory
+<script>
+    $(document).ready(function () {
+        var table = $('#example2').dataTable({
+            responsive: true,
+            "iDisplayLength": 25,
+            "aaSorting": []
+        });
+    })
+</script>
+<div id="myModal" class="modal fade" role="dialog">
+
+    @using (Html.BeginForm("SaveVehicleType", "VehicleType", FormMethod.Post, new { @id = "frmEdit" }))
+    {
+        double creditTotal = 0;
+        double debitTotal = 0;
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+        <div class="modal-dialog modal-lg x2large">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        <label>Payment History</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12"><div class="form-group" id="popupError"></div></div>
+                    </div>
+                    <p id="MessageToClient" class="text-danger"></p>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-condensed table-bordered example2" id="example2">
+                            <thead>
+                                <tr>
+                                    <th class="">
+                                        <label>Head</label>
+                                    </th>
+                                    <th class="">
+                                        <label>Invoice</label>
+                                    </th>
+                                    <th class="">
+                                        <label>Date</label>
+                                    </th>
+                                    <th class="">
+                                        <label>Party</label>
+                                    </th>
+                                    <th class="">
+                                        <label>Particular</label>
+                                    </th>
+                                    @*<th class="">
+                                            <label>Total</label>
+                                        </th>*@
+                                    <th class="">
+                                        <label>Credit</label>
+                                    </th>
+                                    <th class="">
+                                        <label>Debit</label>
+                                    </th>
+                                    <th class="">
+                                        <label>Net</label>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            @foreach (var item in Model.DailyItemViewModel)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HeadName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Invoice)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date, "ShortDate")
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Particular)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Total, "CustomNumberFormat")
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Credit)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Debit)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Net)
+                                    </td>
+
+
+                                </tr>
+                                creditTotal += @Convert.ToDouble(item.Credit);
+                                debitTotal += @Convert.ToDouble(item.Debit);
+                            }
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>@creditTotal</td>
+                                <td>@debitTotal</td>
+                                <td>Total :<b><i class="fa fa-rupee"></i> @Convert.ToDouble(@creditTotal - @debitTotal)</b></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default CloseUser" data-dismiss="modal">Close &raquo;</button>
+                    @*<button type="submit" class="btn btn-primary SaveUser">Save &raquo;</button>*@
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,24 @@
+﻿@model string
+@{
+    ViewBag.Title = "Product Categories";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Product Category</h2>
+        <hr />
+        <p class="text-danger">@TempData["MessageToClient"]</p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-condensed table-bordered" id="dataTables">
+                <p>
+                    <br />
+                    <a href="/TOIManagement/ProductCategories/Create" class="btn btn-success btn-xs">Create New</a>
+                </p>
+            </table>
+            <div id="categories">
+                @Html.Raw(@Model)
+            </div>
+        </div>
+    </div>
+</div>

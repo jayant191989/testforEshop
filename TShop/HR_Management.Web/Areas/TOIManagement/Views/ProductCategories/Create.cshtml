@@ -1,0 +1,127 @@
+﻿@model HR_Management.Web.ViewModels.ProductCategoryViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box-inner">
+    <div class="box-content">
+
+        <h2>Create Product Category</h2>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">General Detail</a></li>
+                    @*<li><a data-toggle="tab" href="#menu1">Attributes</a></li>*@
+                </ul>
+                @using (Html.BeginForm("Create", "ProductCategories", FormMethod.Post, new { id = "form", @class = "wizard-big", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="form-horizontal">                              
+                               <br />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ParentCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("ParentCategoryId", (IEnumerable<SelectListItem>)ViewBag.ParentCategoryIdSelectList, "(None)", new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>                           
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <fieldset>                              
+                                <div class="row">
+                                    <br />
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">Add Attribute </label>
+                                            <div class="col-md-4">
+                                                @Html.EditorFor(model => model.AttributeName, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.AttributeName, "", new { @class = "text-danger" })
+                                            </div>                                           
+                                            <input id="btnAdd" type="submit" value="Add" class="btn btn-primary" />
+                                            <input id="btnAddOption" type="button" value="Add Options" class="btn btn-primary" onclick="AddTextBox()" />
+                                        </div>
+                                        <hr />
+                                        @*add button*@
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <br />
+                                                <br />
+                                                <div id="TextBoxContainer">
+                                                    <!--Textboxes will be added here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-success pull-right" />
+                        </div>
+                    </div>
+                   
+                  
+                }
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-md-offset-1">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function GetDynamicTextBox(value) {
+            return '<input name = "AttributeOptions" type="text" value = "' + value + '" />' +
+                    '<input type="button" value="Remove" onclick = "RemoveTextBox(this)" />'
+        }
+        function AddTextBox() {
+            var div = document.createElement('DIV');
+            div.innerHTML = GetDynamicTextBox("");
+            document.getElementById("TextBoxContainer").appendChild(div);
+        }
+
+        function RemoveTextBox(div) {
+            document.getElementById("TextBoxContainer").removeChild(div.parentNode);
+        }
+
+        function RecreateDynamicTextboxes() {
+            var values = eval('<%=Values%>');
+            if (values != null) {
+                var html = "";
+                for (var i = 0; i < values.length; i++) {
+                    html += "<div>" + GetDynamicTextBox(values[i]) + "</div>";
+                }
+                document.getElementById("TextBoxContainer").innerHTML = html;
+            }
+        }
+        window.onload = RecreateDynamicTextboxes;
+    </script>
+}

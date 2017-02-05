@@ -1,0 +1,216 @@
+﻿@model IEnumerable<HR_Management.Models.Contact>
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dataTableInstance = $('#dataTable').DataTable({
+            //"iDisplayLength": 1,
+            responsive: true,
+            columns: [
+                { 'data': 'Id' },
+                { 'data': 'FirstName' },
+                { 'data': 'Email' },
+                { 'data': 'DepartmentID' },
+                {
+                    'data': 'Mobile',
+                    'render': function (mobile) {
+                        if (!mobile) {
+                            return mobile;
+                        }
+                        return "91- " + mobile;
+                    },
+                    'searchable': false,
+                    'sortable': false
+                },
+                {
+                    'data': 'JoinDate',
+                    'render': function (jsonDate) {
+                        if (!jsonDate) {
+                            return jsonDate;
+                        }
+                        var date = new Date(parseInt(jsonDate.substr(6)));
+                        var month = date.getMonth() + 1;
+                        return date.getDate() + '/' + month + '/' + date.getFullYear();
+                    }
+                },
+                {
+                    'data': 'Options',
+                    'render': function (refData) {
+                        return '<a href=/TOIManagement/Employees/Details/' + refData + '  class="glyphicon glyphicon-zoom-in" >' + '</a>' + ' |' + '<a href=/TOIManagement/Employees/Edit/' + refData + '  class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' + '<a href=/TOIManagement/Employees/Delete/' + refData + '  class="glyphicon glyphicon-remove" >' + '</a>' + ' |' + '<a href=/TOIManagement/EmployeeSalaryDetails/Edit/' + refData + '  class="fa fa-inr" >' + '</a>' + ' |' + '<a href=/TOIManagement/EmployeeAttendences/AttendenceByEmpId/' + refData + '  class="fa fa-buysellads" >' + '</a>';
+                    }
+                },
+            ],
+            bServerSide: true,
+            sAjaxSource: '/TOIManagement/Employees/GetEmployee',
+            sServerMethod: 'post',
+
+        });
+        //var tableTools = new $.fn.dataTable.TableTools(dataTableInstance, {
+        //    'aButtons': [
+        //        {
+        //            'sExtends': 'xls',
+        //            'sButtonText': 'Save to Excel',
+        //            'sFileName': 'Data.xls'
+        //        },
+        //        {
+        //            'sExtends': 'print',
+        //            'bShowAll': true,
+        //        },
+        //        {
+        //            'sExtends': 'pdf',
+        //            'bFooter': false
+        //        },
+        //        'copy',
+        //        'csv'
+        //    ],
+        //    'sSwfPath': '//cdn.datatables.net/tabletools/2.2.4/swf/copy_csv_xls_pdf.swf'
+        //});
+        //$(tableTools.fnContainer()).insertBefore('#dataTable_wrapper');
+
+        //$('.showHideColumn').on('click', function () {
+        //    var tableColumn = dataTableInstance.column($(this).attr('data-columnindex'));
+        //    tableColumn.visible(!tableColumn.visible());
+        //})
+    });
+</script>
+
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Employees/GetEmployee",
+                type: "POST",
+                dataType: 'json',
+                success: function (data) {
+                    var dataTableInstance = $('#dataTable').dataTable({
+                        data: data,
+                        responsive: true,
+                        columns: [
+                            { 'data': 'FullName' },
+                            { 'data': 'Email' },
+                            { 'data': 'DepartmentID' },
+                            {
+                                'data': 'Mobile',
+                                'render': function (mobile) {
+                                    return "91- " + mobile;
+                                },
+                                'searchable': false,
+                                'sortable': false
+                            },
+                            {
+                                'data': 'JoinDate',
+                                'render': function (jsonDate) {
+                                    if (!jsonDate) {
+                                        return jsonDate;
+                                    }
+                                    var date = new Date(parseInt(jsonDate.substr(6)));
+                                    var month = date.getMonth() + 1;
+                                    return date.getDate() + '/' + month + '/' + date.getFullYear();
+                                }
+                            },
+                            {
+                                'data': 'Options',
+                                'render': function (refData) {
+                                    return '<a href=/Employees/Details/' + refData + '  class="glyphicon glyphicon-zoom-in" >' + '</a>' + ' |' + '<a href=/Employees/Edit/' + refData + '  class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' + '<a href=/Employees/Delete/' + refData + '  class="glyphicon glyphicon-remove" >' + '</a>';
+                                }
+                            },
+
+                        ]
+                    });
+
+                    //$('#dataTable thead th').each(function () {
+                    //    var title = $('#dataTable tfoot th').eq($(this).index()).text();
+                    //    $(this).html('<input type="text" placeholder="Search ' + title + '"/>')
+                    //})
+
+                    //dataTableInstance.api().columns().every(function () {
+                    //    var dataTableColumn = this;
+                    //    var searchTextBox = $(this.header()).find('input');
+
+                    //    searchTextBox.on('keyup change', function () {
+                    //        dataTableColumn.search(this.value).draw();
+                    //    });
+
+                    //    searchTextBox.on('click', function (e) {
+                    //        e.stopPropagation();
+                    //    });
+                    //});
+
+                    $('.showHideColumn').on('click', function () {
+                        var tableColumn = dataTableInstance.api().column($(this).attr('data-columnindex'));
+                        tableColumn.visible(!tableColumn.visible());
+                    })
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //  alert('hi' + XMLHttpRequest.responseText);
+                    if (XMLHttpRequest.status == 400) {
+                        $('#MessageToClient').text(XMLHttpRequest.responseText);
+                    }
+                    else {
+                        $('#MessageToClient').text(XMLHttpRequest.responseText);
+                    }
+                }
+            });
+        })
+    </script>*@
+
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Employee List</h2>
+        <hr />
+        <p id="MessageToClient" class="text-danger"></p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <p class="text-danger">@TempData["MessageToClientError"]</p>
+        <div id="getEmployeeData"></div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              Employees List
+            </div>
+            @*<b>Show / Hide Columns :</b>
+            <a class="showHideColumn" data-columnindex="0">Id</a> -
+            <a class="showHideColumn" data-columnindex="1">Email</a> -
+            <a class="showHideColumn" data-columnindex="2">DepartmentID</a> -
+            <a class="showHideColumn" data-columnindex="3">Mobile</a> -
+            <a class="showHideColumn" data-columnindex="4">JoinDate</a>*@
+
+            <div class="panel-body">
+                <table class="table table-hover table-striped table-condensed table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Id</th>
+                            <th>FirstName</th>
+                            <th>Email</th>
+                            <th class="col-md-1">DepartmentID</th>
+                            <th>Mobile</th>
+                            <th>JoinDate</th>
+                            <th>
+                                <p>
+                                    @Html.ActionLink("Create Employee", "Create", null, new { @class = "btn btn-success btn-xs" })
+                                </p>
+                              
+                            </th>
+                        </tr>
+                    </thead>
+                    @*<tfoot>
+                            <tr>
+                                <th class="col-md-2">Id</th>
+                                <th>FirstName</th>
+                                <th>Email</th>
+                                <th class="col-md-1">DepartmentID</th>
+                                <th>Mobile</th>
+                                <th>JoinDate</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>*@
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

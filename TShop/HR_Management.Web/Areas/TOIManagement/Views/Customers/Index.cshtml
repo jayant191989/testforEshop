@@ -1,0 +1,84 @@
+﻿@model IEnumerable<HR_Management.Models.Contact>
+@{
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        var table = $('#dataTables').dataTable({
+            responsive: true,
+            "iDisplayLength": 25
+        });
+    })
+</script>
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Customers List</h2>
+        <hr />
+        @*@Html.ActionLink("Show All", "Index", "Customers", new { status = "showall" }, new { @class = "btn btn-primary btn-xs" })*@
+        <p class="text-danger">@TempData["MessageToClient"]</p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-condensed table-bordered" id="dataTables">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Mobile)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th>
+                            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-xs" })
+                        </th>
+                    </tr>
+                </thead>
+
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+                        @if (item.Status == true)
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "ChangeStatus", "Customers", new { id = item.Id }, new { @class = "btn btn-success btn-xs disabled" }) |                           
+                                @Html.ActionLink("De-Active", "ChangeStatus", "Customers", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.ActionLink("Active", "ChangeStatus", "Customers",
+                                         new { id = item.Id }, new { @class = "btn btn-success btn-xs", style = "margin-right: 10px" })
+
+                                @Html.ActionLink("De-Active", "ChangeStatus", "Customers",
+                                         new { id = item.Id }, new { @class = "btn btn-danger btn-xs disabled" })
+                            </td>                          
+                        }
+
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Customers", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) |
+                            @Html.ActionLink("Delete", "Delete", "Customers", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,246 @@
+﻿@model HR_Management.Models.ProductImage
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Backload/Client/blueimp/fileupload/css/jquery.fileupload.css" rel="stylesheet" />
+<link href="~/Backload/Client/blueimp/fileupload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+
+<script src="~/Backload/Client/blueimp/templates/js/tmpl.min.js"></script>
+<script src="~/Backload/Client/blueimp/loadimage/js/load-image.all.min.js"></script>
+<script src="~/Backload/Client/blueimp/blob/js/canvas-to-blob.min.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/vendor/jquery.ui.widget.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.iframe-transport.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-process.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-image.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-audio.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-video.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-validate.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-ui.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/themes/jquery.fileupload-themes.js"></script>
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Add Product Images</h2>
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <form id="fileupload" action="/Upload/UploadHandler.ashx" method="POST" enctype="multipart/form-data">
+                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                    <div class="row fileupload-buttonbar">
+                        <div class="span7">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn btn-success fileinput-button">
+                                <i class="icon-plus icon-white"></i>
+                                <span>Add files...</span>
+                                <input type="file" name="files[]" multiple>
+                            </span>
+                            <button type="submit" class="btn btn-primary start">
+                                <i class="icon-upload icon-white"></i>
+                                <span>Start upload</span>
+                            </button>
+                            <button type="reset" class="btn btn-warning cancel">
+                                <i class="icon-ban-circle icon-white"></i>
+                                <span>Cancel upload</span>
+                            </button>
+                            <button type="button" class="btn btn-danger delete">
+                                <i class="icon-trash icon-white"></i>
+                                <span>Delete</span>
+                            </button>
+                            <input type="checkbox" class="toggle">
+                        </div>
+                        <div class="span5">
+                            <!-- The global progress bar -->
+                            <div class="progress progress-success progress-striped active fade">
+                                <div class="bar" style="width:0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- The loading indicator is shown during image processing -->
+                    <div class="fileupload-loading"></div>
+                    <br>
+                    <!-- The table listing the files available for upload/download -->
+                    <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+                </form>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+
+   <!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+        <td>
+            <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+        </td>
+        <td class="start">
+            {% if (!o.options.autoUpload) { %}
+            <button class="btn btn-primary">
+                <i class="icon-upload icon-white"></i>
+                <span>{%=locale.fileupload.start%}</span>
+            </button>
+            {% } %}
+        </td>
+        {% } else { %}
+        <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">
+            {% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>{%=locale.fileupload.cancel%}</span>
+            </button>
+            {% } %}
+        </td>
+    </tr>
+    {% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+        <td></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+        <td class="preview">
+            {% if (file.thumbnail_url) { %}
+            <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+            {% } %}
+        </td>
+        <td class="name">
+            <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+        </td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td colspan="2"></td>
+        {% } %}
+        <td class="delete">
+            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-trash icon-white"></i>
+                <span>{%=locale.fileupload.destroy%}</span>
+            </button>
+            <input type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+    {% } %}
+</script>
+
+@*<div id="menu3" class="tab-pane fade">
+        <fieldset>
+            <h2>Images</h2>
+            <div class="ibox-content">
+                <div class="dropzone" id="dropzoneForm">
+                    <div class="dropzone-previews"></div>
+                    <button id="submit-all">Submit All Files</button>
+                </div>
+            </div>
+        </fieldset>
+    </div>*@
+@*<link href="~/Scripts/dropzone/basic.min.css" rel="stylesheet" />
+    <link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" />*@
+<script src="~/Scripts/dropzone/dropzone.min.js"></script>
+<script>
+    var form = $('#form');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+    var productId = $('#Id').val();
+    $(document).ready(function () {
+
+        Dropzone.autoDiscover = false;
+        //Simple Dropzonejs
+        $("#dropzoneForm").dropzone({
+            url: "/Products/SaveUploadedFile",
+            addRemoveLinks: true,
+            maxFiles: 5,
+            autoProcessQueue: false,
+            paramName: "images",
+            uploadMultiple: true,
+            init: function () {
+                var submitButton = document.querySelector("#submit-all");
+                var myDropzone = this; //closure
+
+                //Call the action method to load the images from the server
+                $.getJSON("/Products/GetAttachments/").done(function (data) {
+                    if (data.Data != '') {
+                        alert(data.Data);
+                        $.each(data.Data, function (index, item) {
+                            //// Create the mock file:
+                            var mockFile = {
+                                name: item.Name,
+                                size: item.Size
+                            };
+
+                            // Call the default addedfile event handler
+                            myDropzone.emit("addedfile", mockFile);
+
+                            // And optionally show the thumbnail of the file:
+                            myDropzone.emit("thumbnail", mockFile, item.Path);
+
+                            // If you use the maxFiles option, make sure you adjust it to the
+                            // correct amount:
+                            //var existingFileCount = 1; // The number of files already uploaded
+                            //myDropzone.options.maxFiles = myDropzone.options.maxFiles - existingFileCount;
+                        });
+                    }
+
+                });
+
+
+                submitButton.addEventListener("click", function () {
+                    //tell Dropzone to process all queued files
+                    myDropzone.processQueue();
+
+                });
+                myDropzone.on('sending', function (file, xhr, formData) {
+                    //var attValue;
+                    //if ($('#check_id').is(":checked")) {
+                    //    var attValue = $('#check_id').val();
+                    //}
+                    //alert(attValue);
+                    //   formData.append('Name', 'a1');
+                    //var name = $('#Name').val();
+                    //alert(name);
+                    formData.append('productId', productId);
+                    //  formData.append('AttributeSelectedOnView', attValue);
+                    // formData: form.serialize()
+                });
+
+            },
+            success: function (file, response) {
+                var imgName = response;
+                file.previewElement.classList.add("dz-success");
+                console.log("Successfully");
+            },
+            error: function (file, response) {
+                file.previewElement.classList.add("dz-error");
+            }
+        });
+
+    });
+</script>

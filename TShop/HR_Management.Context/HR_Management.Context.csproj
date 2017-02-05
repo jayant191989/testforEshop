@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7962E21D-A4C6-494D-834A-017961F3C10E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HR_Management.Context</RootNamespace>
+    <AssemblyName>HR_Management.Context</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Configuration\ApplicationFormConfiguration.cs" />
+    <Compile Include="Configuration\ApplicationUserConfiguration.cs" />
+    <Compile Include="Configuration\AttendenceConfiguration.cs" />
+    <Compile Include="Configuration\BankAccountConfiguration.cs" />
+    <Compile Include="Configuration\BatchConfiguration.cs" />
+    <Compile Include="Configuration\BranchConfiguration.cs" />
+    <Compile Include="Configuration\CityCounfiguration.cs" />
+    <Compile Include="Configuration\CompanyConfiguration.cs" />
+    <Compile Include="Configuration\CountryConfiguration.cs" />
+    <Compile Include="Configuration\CustomerConfiguration.cs" />
+    <Compile Include="Configuration\CustomerFeesConfiguration.cs" />
+    <Compile Include="Configuration\DailyConfiguration.cs" />
+    <Compile Include="Configuration\DailyItemConfiguration.cs" />
+    <Compile Include="Configuration\DepartmentConfiguration.cs" />
+    <Compile Include="Configuration\EmployeeAttendenceConfiguration.cs" />
+    <Compile Include="Configuration\ContactConfiguration.cs" />
+    <Compile Include="Configuration\EmployeeSalaryConfiguration.cs" />
+    <Compile Include="Configuration\EmployeeSalaryDetailConfiguration.cs" />
+    <Compile Include="Configuration\EnrollCustomerConfiguration.cs" />
+    <Compile Include="Configuration\LogEntryConfiguration.cs" />
+    <Compile Include="Configuration\MembershipConfiguration.cs" />
+    <Compile Include="Configuration\OrderDetailConfiguration.cs" />
+    <Compile Include="Configuration\ParticularConfiguration.cs" />
+    <Compile Include="Configuration\ProductAttributeConfiguration.cs" />
+    <Compile Include="Configuration\ProductAttributeOptionsConfiguration.cs" />
+    <Compile Include="Configuration\ProductCategoryConfiguration.cs" />
+    <Compile Include="Configuration\ProductConfiguration.cs" />
+    <Compile Include="Configuration\ProductImageConfiguration.cs" />
+    <Compile Include="Configuration\ProductVariantConfiguration.cs" />
+    <Compile Include="Configuration\SalaryConfiguration.cs" />
+    <Compile Include="Configuration\StateConfiguration.cs" />
+    <Compile Include="Configuration\StoreConfiguration.cs" />
+    <Compile Include="Configuration\StoreProductConfiguration.cs" />
+    <Compile Include="Configuration\SyncLogConfiguration.cs" />
+    <Compile Include="Configuration\UserAddressConfiguration.cs" />
+    <Compile Include="Configuration\UserCartConfiguration.cs" />
+    <Compile Include="Configuration\UserOrderConfiguration.cs" />
+    <Compile Include="Migrations\201611282003264_Init.cs" />
+    <Compile Include="Migrations\201611282003264_Init.Designer.cs">
+      <DependentUpon>201611282003264_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611290540398_typeInContact.cs" />
+    <Compile Include="Migrations\201611290540398_typeInContact.Designer.cs">
+      <DependentUpon>201611290540398_typeInContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611291836496_AmtTakenNAmtPaidNProductTotalInDaily.cs" />
+    <Compile Include="Migrations\201611291836496_AmtTakenNAmtPaidNProductTotalInDaily.Designer.cs">
+      <DependentUpon>201611291836496_AmtTakenNAmtPaidNProductTotalInDaily.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611292020446_NullDue.cs" />
+    <Compile Include="Migrations\201611292020446_NullDue.Designer.cs">
+      <DependentUpon>201611292020446_NullDue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612022049102_ItemAmtINDailyItem.cs" />
+    <Compile Include="Migrations\201612022049102_ItemAmtINDailyItem.Designer.cs">
+      <DependentUpon>201612022049102_ItemAmtINDailyItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612120900166_ParticularNMembership.cs" />
+    <Compile Include="Migrations\201612120900166_ParticularNMembership.Designer.cs">
+      <DependentUpon>201612120900166_ParticularNMembership.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612121022174_MembershipIdInDaily.cs" />
+    <Compile Include="Migrations\201612121022174_MembershipIdInDaily.Designer.cs">
+      <DependentUpon>201612121022174_MembershipIdInDaily.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612130851190_DailyTotal.cs" />
+    <Compile Include="Migrations\201612130851190_DailyTotal.Designer.cs">
+      <DependentUpon>201612130851190_DailyTotal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612140930013_CustomerOutStanding.cs" />
+    <Compile Include="Migrations\201612140930013_CustomerOutStanding.Designer.cs">
+      <DependentUpon>201612140930013_CustomerOutStanding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612160733462_SalePriceIsAvalableforSaleNShowOnWebSite.cs" />
+    <Compile Include="Migrations\201612160733462_SalePriceIsAvalableforSaleNShowOnWebSite.Designer.cs">
+      <DependentUpon>201612160733462_SalePriceIsAvalableforSaleNShowOnWebSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612161113216_ThumbImageInProduct.cs" />
+    <Compile Include="Migrations\201612161113216_ThumbImageInProduct.Designer.cs">
+      <DependentUpon>201612161113216_ThumbImageInProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612201221051_UserCart.cs" />
+    <Compile Include="Migrations\201612201221051_UserCart.Designer.cs">
+      <DependentUpon>201612201221051_UserCart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612210847419_ProductIMagesNProductMToMRelation.cs" />
+    <Compile Include="Migrations\201612210847419_ProductIMagesNProductMToMRelation.Designer.cs">
+      <DependentUpon>201612210847419_ProductIMagesNProductMToMRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612241030306_UserCompnayRelationEnd.cs" />
+    <Compile Include="Migrations\201612241030306_UserCompnayRelationEnd.Designer.cs">
+      <DependentUpon>201612241030306_UserCompnayRelationEnd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612250834566_SalePriceNDiscountInProduct.cs" />
+    <Compile Include="Migrations\201612250834566_SalePriceNDiscountInProduct.Designer.cs">
+      <DependentUpon>201612250834566_SalePriceNDiscountInProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612260726049_productImageNProductRelationChanged.cs" />
+    <Compile Include="Migrations\201612260726049_productImageNProductRelationChanged.Designer.cs">
+      <DependentUpon>201612260726049_productImageNProductRelationChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612260836584_FullNameINProductIMage.cs" />
+    <Compile Include="Migrations\201612260836584_FullNameINProductIMage.Designer.cs">
+      <DependentUpon>201612260836584_FullNameINProductIMage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612270457338_productIsFeaturedNMore.cs" />
+    <Compile Include="Migrations\201612270457338_productIsFeaturedNMore.Designer.cs">
+      <DependentUpon>201612270457338_productIsFeaturedNMore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612290945418_productShippingChargesAdded.cs" />
+    <Compile Include="Migrations\201612290945418_productShippingChargesAdded.Designer.cs">
+      <DependentUpon>201612290945418_productShippingChargesAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612300824413_UserCartChanges.cs" />
+    <Compile Include="Migrations\201612300824413_UserCartChanges.Designer.cs">
+      <DependentUpon>201612300824413_UserCartChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701010426127_UserAddress.cs" />
+    <Compile Include="Migrations\201701010426127_UserAddress.Designer.cs">
+      <DependentUpon>201701010426127_UserAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701011400063_IdentityUserNAddress.cs" />
+    <Compile Include="Migrations\201701011400063_IdentityUserNAddress.Designer.cs">
+      <DependentUpon>201701011400063_IdentityUserNAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701021040194_UserOrderANdDetails.cs" />
+    <Compile Include="Migrations\201701021040194_UserOrderANdDetails.Designer.cs">
+      <DependentUpon>201701021040194_UserOrderANdDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701021555006_CityStateCountryAdded.cs" />
+    <Compile Include="Migrations\201701021555006_CityStateCountryAdded.Designer.cs">
+      <DependentUpon>201701021555006_CityStateCountryAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701041128141_UserOrderANdDetailChanges.cs" />
+    <Compile Include="Migrations\201701041128141_UserOrderANdDetailChanges.Designer.cs">
+      <DependentUpon>201701041128141_UserOrderANdDetailChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701041809164_CreditDebitInDaily.cs" />
+    <Compile Include="Migrations\201701041809164_CreditDebitInDaily.Designer.cs">
+      <DependentUpon>201701041809164_CreditDebitInDaily.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701050724316_CompanyIdNullableInContacts.cs" />
+    <Compile Include="Migrations\201701050724316_CompanyIdNullableInContacts.Designer.cs">
+      <DependentUpon>201701050724316_CompanyIdNullableInContacts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701051053507_OutstandingToOpneingBalance.cs" />
+    <Compile Include="Migrations\201701051053507_OutstandingToOpneingBalance.Designer.cs">
+      <DependentUpon>201701051053507_OutstandingToOpneingBalance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701070844518_AddredRefAccountID.cs" />
+    <Compile Include="Migrations\201701070844518_AddredRefAccountID.Designer.cs">
+      <DependentUpon>201701070844518_AddredRefAccountID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701131339254_UserDetailsAddedInAspUser.cs" />
+    <Compile Include="Migrations\201701131339254_UserDetailsAddedInAspUser.Designer.cs">
+      <DependentUpon>201701131339254_UserDetailsAddedInAspUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HR_Management.Models\HR_Management.Models.csproj">
+      <Project>{21c66d6f-3d97-440f-96b3-b10d1053e4d4}</Project>
+      <Name>HR_Management.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611282003264_Init.resx">
+      <DependentUpon>201611282003264_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611290540398_typeInContact.resx">
+      <DependentUpon>201611290540398_typeInContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611291836496_AmtTakenNAmtPaidNProductTotalInDaily.resx">
+      <DependentUpon>201611291836496_AmtTakenNAmtPaidNProductTotalInDaily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611292020446_NullDue.resx">
+      <DependentUpon>201611292020446_NullDue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612022049102_ItemAmtINDailyItem.resx">
+      <DependentUpon>201612022049102_ItemAmtINDailyItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612120900166_ParticularNMembership.resx">
+      <DependentUpon>201612120900166_ParticularNMembership.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612121022174_MembershipIdInDaily.resx">
+      <DependentUpon>201612121022174_MembershipIdInDaily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612130851190_DailyTotal.resx">
+      <DependentUpon>201612130851190_DailyTotal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612140930013_CustomerOutStanding.resx">
+      <DependentUpon>201612140930013_CustomerOutStanding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612160733462_SalePriceIsAvalableforSaleNShowOnWebSite.resx">
+      <DependentUpon>201612160733462_SalePriceIsAvalableforSaleNShowOnWebSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612161113216_ThumbImageInProduct.resx">
+      <DependentUpon>201612161113216_ThumbImageInProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612201221051_UserCart.resx">
+      <DependentUpon>201612201221051_UserCart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612210847419_ProductIMagesNProductMToMRelation.resx">
+      <DependentUpon>201612210847419_ProductIMagesNProductMToMRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612241030306_UserCompnayRelationEnd.resx">
+      <DependentUpon>201612241030306_UserCompnayRelationEnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612250834566_SalePriceNDiscountInProduct.resx">
+      <DependentUpon>201612250834566_SalePriceNDiscountInProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612260726049_productImageNProductRelationChanged.resx">
+      <DependentUpon>201612260726049_productImageNProductRelationChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612260836584_FullNameINProductIMage.resx">
+      <DependentUpon>201612260836584_FullNameINProductIMage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612270457338_productIsFeaturedNMore.resx">
+      <DependentUpon>201612270457338_productIsFeaturedNMore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612290945418_productShippingChargesAdded.resx">
+      <DependentUpon>201612290945418_productShippingChargesAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612300824413_UserCartChanges.resx">
+      <DependentUpon>201612300824413_UserCartChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701010426127_UserAddress.resx">
+      <DependentUpon>201701010426127_UserAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701011400063_IdentityUserNAddress.resx">
+      <DependentUpon>201701011400063_IdentityUserNAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701021040194_UserOrderANdDetails.resx">
+      <DependentUpon>201701021040194_UserOrderANdDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701021555006_CityStateCountryAdded.resx">
+      <DependentUpon>201701021555006_CityStateCountryAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701041128141_UserOrderANdDetailChanges.resx">
+      <DependentUpon>201701041128141_UserOrderANdDetailChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701041809164_CreditDebitInDaily.resx">
+      <DependentUpon>201701041809164_CreditDebitInDaily.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701050724316_CompanyIdNullableInContacts.resx">
+      <DependentUpon>201701050724316_CompanyIdNullableInContacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701051053507_OutstandingToOpneingBalance.resx">
+      <DependentUpon>201701051053507_OutstandingToOpneingBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701070844518_AddredRefAccountID.resx">
+      <DependentUpon>201701070844518_AddredRefAccountID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701131339254_UserDetailsAddedInAspUser.resx">
+      <DependentUpon>201701131339254_UserDetailsAddedInAspUser.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

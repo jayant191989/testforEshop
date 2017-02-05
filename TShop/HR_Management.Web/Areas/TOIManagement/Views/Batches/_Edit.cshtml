@@ -1,0 +1,51 @@
+﻿@model HR_Management.Models.Batch
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editbatchform" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal" aria-hidden="True">&times;</a>
+        <h4 class="modal-title">Edit Batch</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <p id="MessageToClient" class="text-danger"></p>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.StoreId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.DropDownList("StoreId", (IEnumerable<SelectListItem>)ViewBag.StoreId, "(None)", new { @class = "form-control" })*@
+                    @Html.DropDownListFor(model => model.StoreId, new SelectList(ViewBag.StoreId, "Value", "Text"), null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EnteredDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EnteredDate, "PopUpDate")
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

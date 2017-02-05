@@ -1,0 +1,90 @@
+﻿@model  HR_Management.ShoppingCartBL.ViewModels.ProductLst
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Page Heading
+                <small>Secondary Text</small>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-3">
+            <p class="lead">Shop Name</p>
+            <div class="list-group">
+                <a href="#" class="list-group-item">Category 1</a>
+                <a href="#" class="list-group-item">Category 2</a>
+                <a href="#" class="list-group-item">Category 3</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                @foreach (var FPrd in Model.ProductViewModelLst)
+                {
+                    //if (FPrd.FeaturedType.ToLower() == "men")
+                    //{
+                    //}
+                    <div class="col-md-4 portfolio-item">
+                        <div class="thumbnail">
+                            @if (FPrd.ThumbMainImageName == null)
+                            {
+                                <a href="@Url.Action("ProductDetail","Product", new { Id = @FPrd.Id })">
+                                    <img src="http://placehold.it/800x500" alt="">
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("ProductDetail","Product", new { Id = @FPrd.Id })">
+                                    <img src="@Url.Content("~/Images/Upload/" + FPrd.CategoryName +"/" + FPrd.ThumbMainImageName + "_small.jpg")" alt="@FPrd.ProductName" />
+                                </a>
+                            }
+                            <div class="caption">
+                                <div class="price">
+                                    <h4 class="pull-right">
+                                        Rs.@String.Format("{0:0.00}", 4000)
+                                    </h4>
+                                </div>
+
+                                <h4>
+                                    <a href="#">Fourth Product</a>
+                                </h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                <p>
+                                    <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">Add To Cart</a>
+                                </p>
+                            </div>
+                            <div class="ratings">
+                                <p class="pull-right">18 reviews</p>
+                                <p>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                <div class="col-sm-4 col-lg-4 col-md-4">
+                    <h4>
+                        <a href="#">Like this template?</a>
+                    </h4>
+                    <p>If you like this template, then check out <a target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this tutorial</a> on how to build a working review system for your online store!</p>
+                    <a class="btn btn-primary" target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

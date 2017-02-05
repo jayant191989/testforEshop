@@ -1,0 +1,165 @@
+﻿@model IEnumerable<HR_Management.Models.Product>
+
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td.details-control {
+        background: url('../../Content/DataTables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/DataTables/images/details_close.png') no-repeat center center;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#example2').DataTable({
+            "processing": true,
+            "iDisplayLength":50,
+            //"serverSide": true,
+            responsive: true,
+            "ajax": '/TOIManagement/Products/GetProductForDatatable',
+            "columns": [
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                { "data": "Code" },
+                { "data": "AutoGenerateName" },
+                { "data": "Name" },
+                { "data": "SalePrice" },
+                {
+                    'data': 'Options',
+                    'render': function (data, type, row) {
+                        return '<a href=/TOIManagement/ProductImages/GetImages/' + row.Id + '  class="fa fa-image" >Images' + '</a>' + ' |' +
+                        '<a href=/TOIManagement/Products/Edit/' + row.Id + '?tabindex=0' + '  class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' +
+                            '<a href=/TOIManagement/Products/Delete/' + row.Id + '  class="glyphicon glyphicon-remove" >' + '</a>'
+                    }
+                },
+            ],
+            "order": [[1, 'asc']],
+            "aaSorting": []
+        });
+
+        function format(d) {
+            var tbl = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="table table-hover table-striped table-condensed table-bordered tbldetl">';
+            tbl += '<tr>';
+            //tbl += "<td>Id</td>";
+            tbl += "<td>Name</td>";
+            tbl += "<td>OptionValue</td>";
+            tbl += '</tr>';
+            var flag = false;
+            $.each(d.ProductsAttributeViewModels, function (i) {
+                //   var Id = ''
+                var Name = '';
+                var OptionValue = '';
+                $.each(d.ProductsAttributeViewModels[i], function (key, val) {
+                    //if (key == 'Id') {
+                    //    Id = val;
+                    //}
+                    if (key == 'Name') {
+                        Name = val;
+                    }
+                    else if (key == 'OptionValue') {
+                        OptionValue = val;
+                    }
+                });
+                tbl += '<tr>';
+                //tbl += '<td>' + Id + ' </td>';
+                tbl += '<td>' + Name + ' </td>';
+                tbl += '<td>' + OptionValue + ' </td>';
+                tbl += '</tr>';
+                flag = true;
+            });
+            if (flag == false) {
+                tbl += '<tr>';
+                tbl += '<td colspan="11">No record found</td>';
+                tbl += '</tr>';
+            }
+            tbl + '</table>';
+            return tbl;
+        }
+
+        $('#example2 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+    })
+</script>
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Product List</h2>
+        <hr />
+        <p class="text-danger">@TempData["MessageToClient"]</p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <p>
+            @Html.ActionLink("New Product", "Create", "Products", null, new { @class = "btn btn-success btn-xs" })
+        </p>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-condensed table-bordered" id="example2">
+                <thead>
+                    <tr>
+                        <th class="">
+                        </th>
+                        <th class="col-md-1">
+                            Code
+                        </th>
+                        <th class="col-md-6">
+                            AutoGenerateName
+                        </th>
+                        <th class="col-md-2">
+                            Name
+                        </th>
+                        <th class="col-md-1">
+                            SalePrice
+                        </th>
+                        <th class="col-md-2">
+                        </th>
+                    </tr>
+                </thead>
+
+                @*@foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AutoGenerateName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id, tabindex = 1 })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id, tabindex = 1 })
+                            </td>
+                        </tr>
+                    }*@
+
+            </table>
+        </div>
+    </div>
+</div>
+

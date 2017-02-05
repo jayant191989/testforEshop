@@ -1,0 +1,154 @@
+﻿@model EyePolice.WebAdmin.ViewModels.CountryViewModel
+
+@{
+    ViewBag.Title = "Edit Country";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="box">
+        <div class="box-header">
+            <h3 class="box-title">Details - @Model.Name</h3>
+            <hr />
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">Edit Country</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Select Violations </a></li>
+                        <li class="pull-right">
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm" href="@Url.Action("Index")"><i class="fa fa-reply"></i></a>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
+                                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Submit</button>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="box box-info">
+                                <div class="box-header">
+                                    @*<h2 class="box-title">Edit Country</h2>*@
+                                    <hr />
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-horizontal">
+
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        @Html.HiddenFor(model => model.Id)
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-4">
+                                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    @*<h3 class="box-title">Select Violations</h3>*@
+                                    <hr />
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div>
+                                            <div class="col-md-4">
+                                                <input type="checkbox" id="select_all"><text><b>Select All</b> </text>
+                                                <div style="float:left;padding:5px">
+                                                    @{
+                                                        foreach (var tag in Model.ViolationCategoryViewModels)
+                                                        {
+                                                            <div style="padding:5px">
+                                                                <input type="checkbox" class="selectcheckbox @tag.Name" checked="@tag.IsChecked" value=@tag.Id name=ViolationCategoryName>
+                                                                <b>@tag.Name</b>
+                                                                @foreach (var option in tag.ViolationViewModels)
+                                                                {
+                                                                    <div>
+                                                                        <ul>
+                                                                            <li class="checkbox">
+                                                                                <input type="checkbox" checked="@option.IsChecked" value=@option.Id name=ViolationName>
+                                                                                @option.Title
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        }
+                                                        @*foreach (var tag in Model.ViolationCountrySelectLists)
+                                                            {
+                                                                if (tag.ViolationsCheckLists.Count() != 0)
+                                                                {
+                                                                    <div style="padding:5px">
+                                                                        <input type="checkbox" class="selectcheckbox" checked="@tag.IsChecked" value=@tag.Id name=SelectedCountries>
+                                                                        <b>@tag.Name</b>
+
+                                                                        @foreach (var option in tag.ViolationsCheckLists)
+                                                                        {
+                                                                            <div>
+                                                                                <ul>
+                                                                                    <li class="checkbox">
+                                                                                        <input type="checkbox" checked="@option.IsChecked" value=@option.Id name=OptionsSelectedOnView>
+                                                                                        @option.Name
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                }
+
+                                                            }
+                                                            foreach (var tag in Model.ViolationSubCategoryLists)
+                                                            {
+                                                                if (tag.ViolationsCheckLists.Count() != 0)
+                                                                {
+                                                                    <div style="padding:5px">
+                                                                        <input type="checkbox" class="selectcheckbox" checked="@tag.IsChecked" value=@tag.Id name=SelectedCountries>
+                                                                        <b>@tag.Name</b>
+
+                                                                        @foreach (var option in tag.ViolationsCheckLists)
+                                                                        {
+                                                                            <div>
+                                                                                <ul>
+                                                                                    <li class="checkbox">
+                                                                                        <input type="checkbox" checked="@option.IsChecked" value=@option.Id name=OptionsSelectedOnView>
+                                                                                        @option.Name
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                }
+
+                                                            }*@
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                                                        }
+        </div>
+    </div>
+
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

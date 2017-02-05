@@ -1,0 +1,31 @@
+﻿@model HR_Management.Web.ViewModels.ProductViewModel
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="container">
+            @{
+                foreach (var tag in Model.AttributesTags)
+                {
+                    <div style="float:left;padding:10px">
+                        @*<input type="checkbox" value=@tag.Id name="AttributeSelectedOnView">*@
+                        <label>@tag.Name</label>
+                        @foreach (var option in tag.ProductAttributeOptions)
+                        {
+                            <ul>
+                                <li>
+                                    <input type="checkbox" value=@option.Id name=OptionsSelectedOnView>
+                                    <label>@option.Name</label>
+                                </li>
+                            </ul>
+                        }
+
+                    </div>
+                }
+            }
+
+            <div class="clearfix"></div>
+        </div>
+
+    </div>
+</div>
+

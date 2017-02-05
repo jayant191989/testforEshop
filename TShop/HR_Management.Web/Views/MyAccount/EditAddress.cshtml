@@ -1,0 +1,169 @@
+﻿@model HR_Management.ShoppingCartBL.ViewModels.UserAddressViewModel
+
+@{
+    ViewBag.Title = "AddNewAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container main-container headerOffset">
+    <div class="row">
+
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="account.html">My Account</a></li>
+                <li class="active"> Add Address</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <h1 class="section-title-inner"><span><i class="fa fa-map-marker"></i> Add Your addresses </span></h1>
+
+            <div class="row userInfo">
+
+                <div class="col-lg-12">
+                    <h2 class="block-title-2"> To add a new address, please fill out the form below. </h2>
+
+                    <p class="required"><sup>*</sup> Required field</p>
+                </div>
+
+                <div class="row">
+                    @using (Html.BeginForm("AddNewAddress", "MyAccount", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        <div class="col-md-6">
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">First Name <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">Last Name <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">Company <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Company, new { htmlAttributes = new { @class = "form-control", placeholder = "Company" } })
+                                    @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">Mobile <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", placeholder = "Mobile" } })
+                                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">NearestLandMark <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.NearestLandMark, new { htmlAttributes = new { @class = "form-control", placeholder = "Nearest LandMark" } })
+                                    @Html.ValidationMessageFor(model => model.NearestLandMark, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">AddressLine1 <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.AddressLine1, new { htmlAttributes = new { @class = "form-control", placeholder = "AddressLine1" } })
+                                    @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">AddressLine2 <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.AddressLine2, new { htmlAttributes = new { @class = "form-control", placeholder = "AddressLine2" } })
+                                    @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">City <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+                                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">State <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
+                                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">ZipCode <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control", placeholder = "ZipCode" } })
+                                    @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">Country <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control", placeholder = "Country" } })
+                                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="InputName" class="col-md-9">AddressTitle <sup>*</sup> </label>
+                                <div class="col-md-9">
+                                    @Html.EditorFor(model => model.AddressTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Title" } })
+                                    @Html.ValidationMessageFor(model => model.AddressTitle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn   btn-primary">
+                                <i class="fa fa-map-marker"></i> Save Address
+                            </button>
+
+
+                        </div>
+
+                        @*<div class="col-lg-12 col-xs-12 clearfix">
+
+                            </div>*@
+                    }
+                </div>
+
+                <div class="col-lg-12 clearfix">
+                    <ul class="pager">
+                        <li class="previous pull-right">
+                            <a href="@Url.Action("Index","Home")"> <i class="fa fa-home"></i> Go to Shop </a>
+                        </li>
+                        <li class="next pull-left"><a href="@Url.Action("Index","MyAccount")"> &larr; Back to My Account</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+  
+
+
+    <div style="clear:both"></div>
+</div>

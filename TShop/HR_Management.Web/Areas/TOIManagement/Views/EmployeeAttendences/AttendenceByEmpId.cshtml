@@ -1,0 +1,358 @@
+﻿@model IEnumerable<HR_Management.Web.ViewModels.EmployeeAttendenceViewModel>
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div class="box-inner">
+    <div class="box-content">
+        <table class="table table-condensed table-hover table-bordered table-striped ">
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>13</th>
+                    <th>14</th>
+                    <th>15</th>
+                    <th>16</th>
+                    <th>17</th>
+                    <th>18</th>
+                    <th>19</th>
+                    <th>20</th>
+                    <th>21</th>
+                    <th>22</th>
+                    <th>23</th>
+                    <th>24</th>
+                    <th>25</th>
+                    <th>26</th>
+                    <th>27</th>
+                    <th>28</th>
+                    <th>29</th>
+                    <th>30</th>
+                    <th>31</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        @if (@item.Date.Month == 1)
+                        {
+                            <td>Jan</td>
+                        }
+                        else if (@item.Date.Month == 2)
+                        {
+                            <td>Feb.</td>
+                        }
+                        else if (@item.Date.Month == 3)
+                        {
+                            <td>March</td>
+                        }
+                        else if (@item.Date.Month == 4)
+                        {
+                            <td>April</td>
+                        }
+                        else if (@item.Date.Month == 5)
+                        {
+                            <td>May</td>
+                        }
+                        else if (@item.Date.Month == 6)
+                        {
+                            <td>June</td>
+                        }
+                        else if (@item.Date.Month == 7)
+                        {
+                            <td>July</td>
+                        }
+                        else if (@item.Date.Month == 8)
+                        {
+                            <td>August</td>
+                        }
+                        else if (@item.Date.Month == 9)
+                        {
+                            <td>September</td>
+                        }
+                        else if (@item.Date.Month == 10)
+                        {
+                            <td>Oct.</td>
+                        }
+                        else if (@item.Date.Month == 11)
+                        {
+                            <td>Nov.</td>
+                        }
+                        else if (@item.Date.Month == 12)
+                        {
+                            <td>Dec.</td>
+                        }
+
+
+
+                        @if (item.Date.Day == 1)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+
+                        @if (item.Date.Day == 2)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 3)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 4)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 5)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 6)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 7)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 8)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 9)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 10)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 11)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 12)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 13)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 14)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 15)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 16)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 17)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 18)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 19)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 20)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 21)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 22)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 23)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 24)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 25)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 26)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 27)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 28)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 29)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 30)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+                        @if (item.Date.Day == 31)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.AttendenceType, "AttendenceTypeFormat")</td>
+                        }
+                        else
+                        {
+                            <td>@string.Empty</td>
+                        }
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div>
+            @Html.ActionLink("Back to List", "Index", "Employees", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>

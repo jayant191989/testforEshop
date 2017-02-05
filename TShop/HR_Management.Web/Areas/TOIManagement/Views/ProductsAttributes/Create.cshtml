@@ -1,0 +1,93 @@
+﻿@model HR_Management.Web.ViewModels.ProductsAttributeViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Create Attribute</h2>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <input id="btnAdd" type="button" value="Add Options" class="btn btn-primary" onclick="AddTextBox()" />
+                        </div>
+                        <hr />
+                        @*add button*@
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+
+                            <div class="col-md-6">
+                                <br />
+                                <br />
+                                <div id="TextBoxContainer">
+                                    <!--Textboxes will be added here -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-10 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div>
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function GetDynamicTextBox(value) {
+            return '<input name = "AttributeOptions" type="text" value = "' + value + '" />' +
+                    '<input type="button" value="Remove" onclick = "RemoveTextBox(this)" />'
+        }
+        function AddTextBox() {
+            var div = document.createElement('DIV');
+            div.innerHTML = GetDynamicTextBox("");
+            document.getElementById("TextBoxContainer").appendChild(div);
+        }
+
+        function RemoveTextBox(div) {
+            document.getElementById("TextBoxContainer").removeChild(div.parentNode);
+        }
+
+        function RecreateDynamicTextboxes() {
+            var values = eval('<%=Values%>');
+            if (values != null) {
+                var html = "";
+                for (var i = 0; i < values.length; i++) {
+                    html += "<div>" + GetDynamicTextBox(values[i]) + "</div>";
+                }
+                document.getElementById("TextBoxContainer").innerHTML = html;
+            }
+        }
+        window.onload = RecreateDynamicTextboxes;
+    </script>
+}

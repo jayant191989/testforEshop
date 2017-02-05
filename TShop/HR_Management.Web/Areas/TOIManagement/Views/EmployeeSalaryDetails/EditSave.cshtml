@@ -1,0 +1,97 @@
+﻿@model HR_Management.Web.ViewModels.EmployeeSalaryDetailViewModel
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Edit Employee Salary Detail</h2>
+        <hr />
+
+        @using (Html.BeginForm("Edit", "EmployeeSalaryDetails", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(es => es.Id)
+                @Html.HiddenFor(es => es.EmployeeId)
+                <div class="form-inline">
+                    <div class="col-md-12">
+                        <label class="control-label col-md-1">ESI</label>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.ESI)
+                                @Html.ValidationMessageFor(model => model.ESI, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <label class="control-label col-md-1">PF</label>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.PF)
+                                @Html.ValidationMessageFor(model => model.PF, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <label class="control-label col-md-1">Enrolled</label>
+                        <div class="col-md-2">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Enrolled)
+                                @Html.ValidationMessageFor(model => model.Enrolled, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.RatePerHour, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.RatePerHour, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RatePerHour, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.RatePerHourOvertime, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.RatePerHourOvertime, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RatePerHourOvertime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    @Html.LabelFor(model => model.FixedSalary, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-6">
+                        @Html.EditorFor(model => model.FixedSalary, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FixedSalary, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="form-group form-group-sm">
+                        @Html.LabelFor(model => model.OverTimeCal, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class='input-group datetimepicker6 date' id='datetimepicker6'>
+                            @Html.EditorFor(model => model.OverTimeCal, "OverTimeCal")
+                            <span class="input-group-addon input-sm">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", "Employees", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,158 @@
+﻿@model HR_Management.Models.Attendence
+@{
+    
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var bid = $('#dwnBranches').val();
+        var did = $('#dwnDepartments').val();
+        var AttendenceId = $('#Id').val();
+      
+        $.ajax({
+            url: "/EmployeeAttendences/GetEmployees",
+            type: "GET",
+            data: { branchId: bid, departmentId: did, AttendenceId: AttendenceId },
+            // dataType: 'json',
+            success: function (data) {
+                $('#renderEmployees').html(data);
+                // location.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //alert('hi' + XMLHttpRequest.responseText);
+                if (XMLHttpRequest.status == 400) {
+                    $('#MessageToClient').text(XMLHttpRequest.responseText);
+                }
+                else {
+                    $('#MessageToClient').text('The web server had an error.');
+                }
+            }
+        })
+
+
+        $('#dwnBranches').on('change', function () {
+            var bid = $('#dwnBranches').val();
+            @*@{ string branchId = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(bid);}*@
+            if (!bid == 0)
+                $.ajax({
+                    url: "/Attendences/GetDepartments",
+                    type: "POST",
+                    data: { Id: bid },
+                    dataType: 'json',
+                    success: function (data) {
+                        var items = "<option>---------------------</option>";
+                        $.each(data.DepartmentList, function (i, item) {
+                            items += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                        });
+                        //alert(items);
+                        $('#dwnDepartments').html(items);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('hi' + XMLHttpRequest.responseText);
+                        if (XMLHttpRequest.status == 400) {
+                            $('#MessageToClient').text(XMLHttpRequest.responseText);
+                        }
+                        else {
+                            $('#MessageToClient').text('The web server had an error.');
+                        }
+                    }
+                })
+        });
+
+        $('#Filter').on('click', function () {
+            var bid = $('#dwnBranches').val();
+            var did = $('#dwnDepartments').val();
+            var AttendenceId = $('#Id').val();
+            //alert(bid);
+            if (!bid == 0)
+                $.ajax({
+                    url: "/EmployeeAttendences/GetEmployees",
+                    type: "GET",
+                    data: { branchId: bid, departmentId: did, AttendenceId: AttendenceId },
+                    // dataType: 'json',
+                    success: function (data) {
+                        $('#renderEmployees').html(data);
+                        // location.reload();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //alert('hi' + XMLHttpRequest.responseText);
+                        if (XMLHttpRequest.status == 400) {
+                            $('#MessageToClient').text(XMLHttpRequest.responseText);
+                        }
+                        else {
+                            $('#MessageToClient').text('The web server had an error.');
+                        }
+                    }
+                })
+        })
+    })
+</script>
+
+<div class="box-inner">
+    <div class="box-content">
+
+        @using (Html.BeginForm())
+        {
+            <p id="MessageToClient" class="text-danger"></p>
+            <p class="text-danger">@TempData["MessageToClient"]</p>
+            @Html.AntiForgeryToken()
+            <h4>Attendence</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group form-group-sm col-md-3">
+                @*<label class="control-label">Date</label>*@
+                @Html.EditorFor(model => model.Date, "DateReadOnly")
+            </div>
+
+            <div class="form-inline">
+                <div class="form-group form-group-sm">
+                    <label>Select Branch</label>
+                    <select class="form-control" id="dwnBranches">
+                        <option value="" selected="selected">None</option>
+                        @foreach (var item in ViewBag.Branches)
+                        {
+                        <option value="@item.Value">
+                            @item.Text
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="">
+                        <label>Select Department</label>
+                        <select class="form-control" id="dwnDepartments">
+                            <option value="" selected="selected">None</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="col-md-offset-3">
+                        <input id="Filter" value="Filter" type="button" class="form-control btn btn-primary" />
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div id="renderEmployees"></div>
+                @*@{Html.RenderAction("GetEmployees", "EmployeeAttendences", new { departmentId = @ViewBag.DepartmentId, branchId = ViewBag.BranchId, attendenceID = Model.Id });}*@
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+              
+            </div>
+        }
+        <br />
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

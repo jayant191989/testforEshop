@@ -1,0 +1,163 @@
+﻿@model HR_Management.Web.ViewModels.StoreProductsViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Add Store Product</h2>
+        <hr />
+
+        @using (Html.BeginForm("Create", "StoreProducts", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <p id="MessageToClient" class="text-danger"></p>
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(p => p.ProductId, new { id = "hiddenproductid" })
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StoreId, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.StoreId, new SelectList(ViewBag.Stores, "Value", "Text"), "-Select Store-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BatchId, htmlAttributes: new { @class = "control-label col-md-4 required" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.BatchId, new SelectList(ViewBag.Batches, "Value", "Text"), "-Select Branch-", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BatchId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductEnterDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.ProductEnterDate, "EditorDate")
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Product Name</label>
+                            <div class="col-md-6">
+                                @*<input id="productName" data-url="@Url.Action("GetProductsForAutocomplete", "Products")" class="ui-autocomplete-input form-control" />*@
+                                @Html.EditorFor(model => model.ProductName, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "ui-autocomplete-input form-control",
+                                   data_url = @Url.Action("GetProductsForAutocomplete", "Products")
+                               }
+                           })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Code</label>
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @placeholder = "Code", @readonly = "readonly" } })
+                                @*<input id="productCode" class="form-control" readonly />*@
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Auto Generate Name</label>
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.AutoGenerateName, new { htmlAttributes = new { @class = "form-control", @placeholder = "AutoGenerateName", @readonly = "readonly" } })
+                                @*<input id="autoGeneterateName" class="form-control" readonly />*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Model Number</label>
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.ModelNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "ModelNumber", @readonly = "readonly" } })
+                                @*<input id="modelNumber" class="form-control" readonly />*@
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CostPricePerUnit, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.CostPricePerUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CostPricePerUnit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DiscountRatePerUnit, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.DiscountRatePerUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DiscountRatePerUnit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MRPPerUnit, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.MRPPerUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MRPPerUnit, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                      
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-8 col-md-10">
+                        <input type="submit" value="Submit" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#ProductName").autocomplete({
+        minLength: 1,
+        source: function (request, response) {
+            var url = $(this.element).data("url");
+            $.getJSON(url, { term: request.term }, function (data) {
+                response(data)
+            })
+        },
+        appendTo: $(".modal-body"),
+        select: function (event, ui) {
+            $("#hiddenproductid").val(ui.item.Id);
+            $("#ProductId").val(ui.item.Name);
+            $("#Code").val(ui.item.Code);
+            $("#AutoGenerateName").val(ui.item.AutoGenerateName);
+            $("#ModelNumber").val(ui.item.ModelNumber);
+            $("#CostPricePerUnit").select();
+        },
+        change: function (event, ui) {
+            if (!ui.item) {
+                $(event.target).val("");
+            }
+        }
+
+    })
+</script>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HR_Management.Web.ViewModels.SalaryViewModel>
+@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Month Salary</h2>
+        <hr />
+        <table class="table table-striped table-hover table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DaySalary)
+                </th>
+                <th>
+                    @Html.ActionLink("Salary By Employees", "SalaryByEmployees", "Salaries", null, new { @class = "btn btn-primary btn-xs" })
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date, "VeryLongDate")
+                    </td>
+                    <td>
+                        <text>Rs. </text> @Html.DisplayFor(modelItem => item.DaySalary)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Edit", new { id = item.Id, date = item.Date }, new { @class = "btn btn-default btn-xs" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+﻿@model IEnumerable<HR_Management.Models.Batch>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td.details-control {
+        background: url('../../Content/DataTables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/DataTables/images/details_close.png') no-repeat center center;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#example2').DataTable({
+            "processing": true,
+            "serverSide": true,
+            responsive: true,
+            "ajax": '/Batches/GetBatchesForDatatable',
+            "columns": [
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                { "data": "Name" },
+                {
+                    "data": "EnteredDate",
+                    'render': function (jsonDate) {
+                        if (!jsonDate) {
+                            return jsonDate;
+                        }
+                        var date = new Date(parseInt(jsonDate.substr(6)));
+                        var month = date.getMonth() + 1;
+                        return date.getDate() + '/' + month + '/' + date.getFullYear();
+                    }
+                },
+                {
+                    'data': 'Options',
+                    'render': function (data, type, row) {
+                        return '<a href=/TOIManagement/Batches/Edit/' + row.Id + ' class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' +
+                            '<a href=/TOIManagement/Batches/Delete/' + row.Id + '  class="glyphicon glyphicon-remove" >' + '</a>'
+                    }
+                },
+            ],
+            "order": [[1, 'asc']]
+        });
+
+        function format(d) {
+            var tbl = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="table table-hover table-striped table-condensed table-bordered tbldetl">';
+            tbl += '<tr>';
+            tbl += "<td>Id</td>";
+            tbl += "<td>ProductName</td>";
+            tbl += "<td>Quantity</td>";
+            tbl += "<td class='col-md-2'>Edit/Delete</td>";
+            tbl += '</tr>';
+            var flag = false;
+            $.each(d.StoreProductsViewModel, function (i) {
+                var Id = ''
+                var ProductName = '';
+                var Quantity = '';
+                $.each(d.StoreProductsViewModel[i], function (key, val) {
+                    if (key == 'Id') {
+                        Id = val;
+                    }
+                    else if (key == 'ProductName') {
+                        ProductName = val;
+                    }
+                    else if (key == 'Quantity') {
+                        Quantity = val;
+                    }
+                });
+                tbl += '<tr>';
+                tbl += '<td>' + Id + ' </td>';
+                tbl += '<td>' + ProductName + ' </td>';
+                tbl += '<td>' + Quantity + ' </td>';
+                tbl += '<td>' + '<a href=/TOIManagement/StoreProducts/Edit/' + Id + '  class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' +
+                                '<a href=/TOIManagement/StoreProducts/Delete/' + Id + '  class="glyphicon glyphicon-remove" >' + '</a>' +
+                       ' </td>';
+                tbl += '</tr>';
+                flag = true;
+            });
+            if (flag == false) {
+                tbl += '<tr>';
+                tbl += '<td colspan="11">No record found</td>';
+                tbl += '</tr>';
+            }
+            tbl + '</table>';
+            return tbl;
+        }
+
+        $('#example2 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+
+    });
+</script>
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Batches</h2>
+        <hr />
+        <p>
+            @Html.ActionLink("New Batch", "Create", "Batches", null, new { @class = "btn btn-success btn-xs" })
+        </p>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-condensed table-bordered" id="example2">
+                <thead>
+                    <tr>
+                        <th class="">
+                        </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                           Date
+                        </th>                        
+                        <th>
+                           
+                        </th>
+                    </tr>
+                </thead>             
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,400 @@
+﻿@model HR_Management.Web.ViewModels.StoreIndexViewModel
+
+@{
+    ViewBag.Title = "Stores";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/charisma-master/style.css" rel="stylesheet" />
+<style>
+    td.details-control {
+        background: url('../../Content/DataTables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/DataTables/images/details_close.png') no-repeat center center;
+    }
+</style>
+
+<div id="batchModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="batchModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="editbatchModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="editbatchModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="deletebatchModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="deletebatchModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="storeProductModal" class="modal fade in">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="storeProductModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="editStoreProductModal" class="modal fade in">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="editStoreProductModalContent"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.full-height-scroll').slimscroll({
+            height: '500px'
+        })
+    })
+</script>
+<div class="box-inner">
+    <div class="box-content">
+        <div id="resultMessage"></div>
+        <span>
+            <img id="loading" style="display: none;" src="~/Content/ajax-loader.gif" />
+        </span>
+        <div id="wrapper">
+            <div id="page-wrapper">
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-10">
+                        <h2>Stores</h2>
+                        <hr />
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                </div>
+                <div class="fh-breadcrumb">
+                    <div class="row">
+                        <div class="">
+                            <div class="fh-column">
+                                <div class="full-height-scroll border-left border-right">
+                                    <p>
+                                        @Html.ActionLink("Create Store", "Create", null, new { @class = "btn btn-primary btn-xs" })
+                                    </p>
+                                    <ul class="list-group elements-list">
+                                        @foreach (var item in Model.StoreViewModel)
+                                        {
+                                            <li class="list-group-item">
+                                                <a data-toggle="tab" href="#@item.Id">
+                                                    <small class="pull-right text-muted"> 16.02.2015</small>
+                                                    <strong>@Html.DisplayFor(modelItem => item.Name)</strong>
+                                                    <div class="small m-t-xs">
+                                                        <p>
+                                                            @Html.DisplayFor(modelItem => item.Name)
+                                                        </p>
+                                                        <p class="m-b-none">
+                                                            <i class="fa fa-map-marker"></i> Riviera State 32/106
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="fh-column">
+                                <div class="full-height-scroll">
+                                    <div class="">
+                                        <div class="tab-content">
+                                            @Html.ActionLink("Add Batch", "Create", "Batches", null,
+                                                new { @class = "btn btn-default btn-xs", data_modal = "batch" })
+
+                                            @foreach (var item in Model.StoreViewModel)
+                                            {
+                                                <div id="@item.Id" class="tab-pane">
+                                                    <div class="list-group elements-list">
+                                                        <table>
+                                                            @foreach (var batch in @item.BatchesViewModel)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <a data-toggle="tab" class="list-group-item showStoreProduct" href="#@batch.Id">
+                                                                            @*<span class="label label-default label-pill pull-xs-right">@batch.EnteredDate.ToShortDateString()</span>*@
+                                                                            @batch.EnteredDate.ToShortDateString()   @batch.Name
+                                                                            @Html.HiddenFor(b => batch.Id)
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="@Url.Action("Edit","Batches" , new { id=batch.Id })" class="glyphicon glyphicon-pencil" data-modal="editbatch"></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="@Url.Action("Delete","Batches" , new { id=batch.Id })" class="glyphicon glyphicon-remove" data-modal="deletebatch"></a>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </table>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="full-height">
+                                <div class="full-height-scroll white-bg border-left">
+                                    <div class="element-detail-box">
+                                        <div class="tab-content">
+                                            @foreach (var item in Model.StoreViewModel)
+                                            {
+                                                foreach (var batch in item.BatchesViewModel)
+                                                {
+                                                    <div id="@batch.Id" class="tab-pane">
+                                                        @Html.ActionLink("Add Product", "_Create", "StoreProducts", new { batchid = @batch.Id },
+                                                new { @class = "btn btn-primary btn-xs", data_modal = "storeProduct" })
+
+                                                        <div class="list-group elements-list">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    @{ Html.RenderAction("_Index", "StoreProducts", new { batchId = batch.Id });}
+                                                                </div>
+                                                            </div>
+
+                                                            @*@foreach (var product in @batch.StoreProductsViewModel)
+                                                                {
+                                                                <a data-toggle="tab" class="list-group-item" href="#@product.Id">
+                                                                    <span class="label label-default label-pill pull-xs-right">@product.Quantity</span>
+                                                                    @product.Code @product.Name
+                                                                    <small class="pull-right text-muted"> @product.MRPPerUnit</small>
+                                                                </a>
+                                                                }*@
+
+                                                        </div>
+                                                    </div>
+
+                                                                            }
+                                                                        }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/myapp/store/createbatch.js"></script>
+    <script src="~/Scripts/myapp/store/createstoreproduct.js"></script>
+    <script src="~/Scripts/myapp/store/editbatch.js"></script>
+    <script src="~/Scripts/myapp/store/deletebatch.js"></script>
+    <script src="~/Scripts/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.showStoreProduct').on("click", function (e) {
+                e.preventDefault();
+                var batchId = $(this).find("input").val();
+                alert(batchId);
+                $('table.example2').DataTable({
+                    paging: false,
+                    searching: false,
+                    "processing": true,
+                    "serverSide": true,
+                    responsive: true,
+                    "ajax": {
+                        "url": '/StoreProducts/GetStoreProductForDatatable',
+                        "data": { "batchId": batchId },
+                    },
+                    "dataType": "json",
+                    "columns": [
+                        {
+                            "className": 'details-control',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": ''
+                        },
+                        {
+                            "data": "ProductEnterDate",
+                            'render': function (jsonDate) {
+                                if (!jsonDate) {
+                                    return jsonDate;
+                                }
+                                var date = new Date(parseInt(jsonDate.substr(6)));
+                                var month = date.getMonth() + 1;
+                                return date.getDate() + '/' + month + '/' + date.getFullYear();
+                            }
+                        },
+                        { "data": "Name" },
+                        { "data": "MRPPerUnit" },
+                        { "data": "Quantity" },
+                        {
+                            'data': 'Options',
+                            'render': function (data, type, row) {
+                                var hid = " <input type='hidden' class='hidedit' value='" + row.Id + "' />";
+                                var edit = "<button class='btn btn-xs btn-primary vehicletypeedit'>Edit</button>";
+                                var del = "<button class='btn btn-xs btn-danger vehicletypedelete'>Delete</button>";
+                                return hid + edit + "&nbsp;" + del;
+                                //return '<a  href=/StoreProducts/Edit/' + row.Id + '  class="glyphicon glyphicon-pencil btn-editproduct">' + '</a>' +
+                                //    '<a data-toggle="modal"  data-target="#editStoreProductModal" href=/StoreProducts/Delete/' + row.Id + '  class="glyphicon glyphicon-remove" >' + '</a>'
+                            }
+                        },
+                    ],
+                    "order": [[1, 'asc']],
+
+                });
+            });
+
+            //function DataTableInit() {
+            //    $('#dataTables').DataTable({
+            //        iDisplayLength: 10,
+            //        responsive: true,
+            //        columns: [
+
+            //       {
+            //           'data': 'VehicleType',
+            //           "bSearchable": false,
+            //           "bSortable": false,
+            //       },
+            //        {
+            //            'data': 'Id',
+            //            "bSearchable": false,
+            //            "bSortable": false,
+            //            'render': function (refData) {
+            //                var hid = " <input type='hidden' class='hidedit' value='" + refData + "' />";
+            //                var id = '"' + refData + '"';
+            //                var edit = "<button class='btn btn-xs btn-primary vehicletypeedit'>Edit</button>";
+            //                var del = "<button class='btn btn-xs btn-danger vehicletypedelete'>Delete</button>";
+            //                return hid + edit + "&nbsp;" + del;
+            //            }
+            //        },
+
+            //        ],
+            //        destroy: true,
+            //        oLanguage: {
+            //            sProcessing: "<img src='/Images/spinner.gif'> &nbsp;&nbsp; Processing......"
+            //        },
+            //        processing: true,
+            //        bServerSide: true,
+            //        sAjaxSource: '/VehicleType/GetVehicleType',
+            //        sServerMethod: 'post',
+            //        dom: 'Bfrtip',
+            //        buttons: [
+            //             {
+            //                 extend: 'collection',
+            //                 text: 'Export',
+            //                 buttons: [
+
+            //                     'excel',
+            //                     'csv',
+            //                     'pdf',
+            //                     'print'
+            //                 ]
+            //             }
+            //        ]
+            //    });
+            //}
+
+            var loading = $("#loading");
+            $(document).on("click", ".vehicletypeedit", function (e) {
+                var tr = $(this).closest("tr");
+                var id = tr.find(".hidedit").val();
+                e.preventDefault();
+                $(document).on({
+                    ajaxStart: function () {
+                        loading.show();
+                    },
+                    ajaxStop: function () {
+                        loading.hide();
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("_Edit", "StoreProducts")',
+                    // type: 'POST',
+                    data: { 'Id': id },
+                    datype: 'json',
+                    success: function (data) {
+                        if (data != null) {
+                            $("#resultMessage").html(data.ModelString);
+                            $("#myModal").modal('show');
+                            //  $.validator.unobtrusive.parse($('#frmEdit'));
+                        }
+                        $("#waiting_fs").hide();
+                    },
+                    error: function (xhr, status) {
+                        alert(xhr.responseText);
+                        $("#waiting_fs").hide();
+                    }
+                });
+            });
+
+
+
+        })
+    </script>
+
+    <script type="text/javascript">
+        $(".SaveUser").click(function (e) {
+            e.preventDefault();
+            var form = "frmEdit";
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            var headers = {};
+            headers['__RequestVerificationToken'] = token;
+            if ($("#" + form).valid()) {
+
+                $("#waiting_fs").show();
+
+                $(".SaveUser").attr("class", "btn btn-primary SaveUser disabled");
+                $(".CloseUser").attr("class", "btn btn-default CloseUser disabled");
+
+                $.ajax({
+                    url: $("#" + form).attr("action"),
+                    type: $("#" + form).attr("method"),
+                    data: $("#" + form).serialize(),
+                    dataType: "json",
+                    headers: headers,
+                    success: function (data) {
+                        if (data != null) {
+                            if (data.objResponse.IsSuccess == "false") {
+
+                            }
+                            else {
+
+                                $("#myModal").modal('hide');
+                                DataTableInit();
+                            }
+                            ShowDivMsg(data.objResponse.StrResponse);
+                        }
+
+                        $("#waiting_fs").hide();
+
+                        $(".SaveUser").attr("class", "btn btn-primary SaveUser");
+                        $(".CloseUser").attr("class", "btn btn-default CloseUser ");
+                    },
+                    error: function (xhr, status, error) {
+                        alert('err' + xhr.responseText);
+                        $("#waiting_fs").hide();
+                        $(".SaveUser").attr("class", "btn btn-primary SaveUser");
+                        $(".CloseUser").attr("class", "btn btn-default CloseUser ");
+                    }
+                });
+            }
+            else {
+                // alert('error');
+            }
+
+        });
+    </script>
+
+}

@@ -1,0 +1,213 @@
+﻿@model HR_Management.Web.ViewModels.ProductCategoryViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<div id="createAttributeOptionModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="createAttributeOptionModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="editAttributeOptionModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="editAttributeOptionModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="deleteAttributeOptionModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="deleteAttributeOptionModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="editCategoryAttributeModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="editCategoryModalContent"></div>
+        </div>
+    </div>
+</div>
+<div id="deleteCategoryAttributeModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="deleteCategoryModalContent"></div>
+        </div>
+    </div>
+</div>
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>
+            @Model.Name -Category Details<a href="@Url.Action("Create","Products" , new { categoryId = Model.Id  })" class="btn btn-primary pull-right">Add Product</a>
+        </h2>
+        <hr />
+        <p class="text-danger">@TempData["MessageToClientError"]</p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">General Detail</a></li>
+                    <li><a data-toggle="tab" href="#menu1">Attributes</a></li>
+                    <li><a data-toggle="tab" href="#menu2">Products</a></li>
+                </ul>
+                @using (Html.BeginForm("Edit", "ProductCategories", FormMethod.Post, new { id = "form", @class = "wizard-big", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="tab-content">
+
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="form-horizontal">
+                                <br />
+                                <h4>ProductCategory</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ParentCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("ParentCategoryId", (IEnumerable<SelectListItem>)ViewBag.ParentCategoryIdSelectList, "(None)", new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Add Attribute </label>
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.AttributeName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.AttributeName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <input id="btnAddOption" type="button" value="Add Options" class="btn btn-primary" onclick="AddTextBox()" />
+                                    <input id="btnAdd" type="submit" value="Add" class="btn btn-primary" />
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <br />
+                                    <br />
+                                    <div id="TextBoxContainer">
+                                        <!--Textboxes will be added here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="menu1" class="tab-pane fade">
+                            <fieldset>
+                                <br />
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="container">
+                                            @{
+                                                if (Model.CategoryAttributesTags != null)
+                                                {
+                                                    foreach (var tag in Model.CategoryAttributesTags)
+                                                    {
+                                                        <div style="float:left" class="col-md-4">
+                                                            <input type="checkbox" checked="@tag.IsChecked" value=@tag.Name name=AttributeSelectedOnView>
+                                                            <label>@tag.Name</label><a href="@Url.Action("Create","ProductAttributeOptions" , new { productsAttributesId = tag.Id })" data-modal="createattributeoption" class="glyphicon glyphicon-plus"></a>
+                                                            <a href="@Url.Action("Edit","ProductsAttributes" , new { id = tag.Id  })" data-modal="editcategoryattribute" class="glyphicon glyphicon-pencil"></a>
+                                                            <a href="@Url.Action("Delete","ProductsAttributes" , new { id = tag.Id  })" data-modal="deletecategoryattribute" class="glyphicon glyphicon-remove"></a>
+                                                            @foreach (var option in tag.CategoryOptionsTags)
+                                                            {
+                                                                <ul>
+                                                                    <li>
+                                                                        @option.Name
+                                                                        <a href="@Url.Action("Edit","ProductAttributeOptions" , new { id = option.Id  })" data-modal="editattributeoption" class="glyphicon glyphicon-pencil"></a>
+                                                                        <a href="@Url.Action("Delete","ProductAttributeOptions" , new { id = option.Id  })" data-modal="deleteattributeoption" class="glyphicon glyphicon-remove"></a>
+                                                                        @*@Html.ActionLink("Edit", "Edit", new { id = option.Id }) |
+                                                                            @Html.ActionLink("Delete", "Delete", new { id = option.Id })*@
+                                                                    </li>
+                                                                </ul>
+                                                            }
+                                                        </div>
+
+                                                    }
+                                                }
+                                            }
+                                            <div class="clearfix"></div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <br />
+                            </fieldset>
+                        </div>
+                        <div id="menu2" class="tab-pane fade">
+                            <br />
+                            <h4>@Model.Name Products</h4>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @{ Html.RenderAction("ProductsByCategory", "Products", new { productCategoryId = Model.Id });}
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div>
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-success pull-right" />
+                        </div>
+                    </div>
+                                        }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/myapp/category/createcategoryattributeoption.js"></script>
+    <script src="~/Scripts/myapp/category/deletecategoryattribute.js"></script>
+    <script src="~/Scripts/myapp/category/editcategoryattribute.js"></script>
+    <script src="~/Scripts/myapp/category/editcategoryoption.js"></script>
+    <script src="~/Scripts/myapp/category/deletecategoryattributeoption.js"></script>
+    <script type="text/javascript">
+        function GetDynamicTextBox(value) {
+            return '<input name = "AttributeOptions" type="text" value = "' + value + '" />' +
+                    '<input type="button" value="Remove" onclick = "RemoveTextBox(this)" />'
+        }
+        function AddTextBox() {
+            var div = document.createElement('DIV');
+            div.innerHTML = GetDynamicTextBox("");
+            document.getElementById("TextBoxContainer").appendChild(div);
+        }
+
+        function RemoveTextBox(div) {
+            document.getElementById("TextBoxContainer").removeChild(div.parentNode);
+        }
+
+        function RecreateDynamicTextboxes() {
+            var values = eval('<%=Values%>');
+            if (values != null) {
+                var html = "";
+                for (var i = 0; i < values.length; i++) {
+                    html += "<div>" + GetDynamicTextBox(values[i]) + "</div>";
+                }
+                document.getElementById("TextBoxContainer").innerHTML = html;
+            }
+        }
+        window.onload = RecreateDynamicTextboxes;
+    </script>
+}

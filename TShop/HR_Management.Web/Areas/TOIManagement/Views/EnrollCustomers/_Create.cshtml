@@ -1,0 +1,118 @@
+﻿@model HR_Management.Web.ViewModels.EnrollCustomerViewModel
+
+<div data-role="page">
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "enrollcustomer" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal" aria-hidden="True">&times;</a>
+        <h4 class="modal-title">Enroll Customer in Membership</h4>
+    </div>
+
+    <div class="modal-body">
+        <p id="MessageToClient" class="text-danger"></p>
+        <div class="form-horizontal">
+            @Html.HiddenFor(m => m.MembershipId)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.FirstName, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "ui-autocomplete-input form-control",
+                       data_url = @Url.Action("GetCustomersForAutocomplete", "Customers")
+                   }
+               })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DateOfBirth, "DateReadOnly")
+                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-7">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type="datetime" name="DateOfBirth" class="form-control" id="DateOfBirth" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.FathersName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.FathersName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.FathersName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.EnrolledDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.EnrolledDate, "PopUpDate")
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                @Html.LabelFor(model => model.DateOfJoining, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.DateOfJoining, "PopUpDate")
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+        <input class="btn btn-primary" type="submit" value="Add" />
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,807 @@
+﻿@model HR_Management.ShoppingCartBL.ViewModels.CheckOutViewModel
+@{
+    ViewBag.Title = "CheckOutOnePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .credit-card-div span {
+        padding-top: 10px;
+    }
+
+    .credit-card-div i {
+        padding-top: 40px;
+    }
+
+    .credit-card-div .small-font {
+        font-size: 10px;
+    }
+
+    .credit-card-div .pad-adjust {
+        padding-top: 10px;
+    }
+</style>
+<div class="container main-container headerOffset">
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li class="active"> Checkout</li>
+            </ul>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7">
+            <h1 class="section-title-inner">
+                <span>
+                    <i class="glyphicon glyphicon-shopping-cart"></i>  CHECKOUT
+                </span>
+            </h1>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
+            <h4 class="caps"><a href="category.html"><i class="fa fa-chevron-left"></i> Back to shopping </a></h4>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row userInfo">
+                <div class="col-xs-12 col-sm-12">
+
+
+                    <div class="w100 clearfix">
+                        <div class="row userInfo">
+
+                            <div style="clear: both"></div>
+
+                            <div class="onepage-checkout col-lg-12">
+                                @using (Html.BeginForm("PayNowCart", "CheckOut", FormMethod.Post, new { @class = "", @id = "frmcheckout" }))
+                                {
+                                    @Html.ValidationSummary(true)
+                                    @Html.AntiForgeryToken()
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <!--billing imformation-->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingOne">
+                                                <h4 class="panel-title">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                                       href="#BillingInformation" aria-expanded="true"
+                                                       aria-controls="BillingInformation">
+                                                        Billing information
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="BillingInformation" class="panel-collapse collapse in" role="tabpanel"
+                                                 aria-labelledby="BillingInformation">
+                                                <div class="panel-body">
+
+                                                    <div class="form-inline" action="page" method="post">
+                                                        <label class="radio inline">
+                                                            <input id="exisitingAddress" type="radio" value="option1"
+                                                                   name="add"> Use my existing
+                                                            Data address
+                                                        </label>&nbsp;&nbsp;
+                                                        <label class="radio inline">
+                                                            <input id="newAddress" type="radio" value="option2" name="add">
+                                                            I want to assign
+                                                            new address
+                                                        </label>
+
+                                                    </div>
+
+                                                    <hr>
+
+                                                    <div style="clear: both"></div>
+
+                                                    <div id="exisitingAddressBox" class="collapse in">
+                                                        <div class="form-group uppercase">
+                                                            <strong>
+                                                                Select Billing
+                                                                address
+                                                            </strong>
+                                                        </div>
+                                                        <form>
+
+                                                            <div class="form-group required maxwidth300">
+                                                                <label for="InputCountry">
+                                                                    Select Address <sup>*</sup>
+                                                                </label>
+                                                                @Html.DropDownListFor(model => model.BillingAddressValue, new SelectList(ViewBag.AddressTitle, "Value", "Text"), "-Select Address Title-", new { @class = "form-control" })
+                                                                @*<select class="form-control" required aria-required="true"
+                                                                            id="SelectAddress" name="SelectAddress">
+                                                                        <option value="">Address 1</option>
+                                                                        <option value="38">Address 2</option>
+                                                                        <option value="39">Address 3</option>
+                                                                        <option value="40">Address 4</option>
+                                                                        <option value="41">Address 5</option>
+                                                                    </select>*@
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    <div id="newBillingAddressBox" class="collapse">
+
+                                                        <div class="form-group uppercase">
+                                                            <strong>
+                                                                New Billing address
+                                                            </strong>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">First Name <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.FirstName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">Last Name <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.LastName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">Company <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.Company, new { htmlAttributes = new { @class = "form-control", placeholder = "Company" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.Company, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">Mobile <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.Mobile, new { htmlAttributes = new { @class = "form-control", placeholder = "Mobile" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.Mobile, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">NearestLandMark <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.NearestLandMark, new { htmlAttributes = new { @class = "form-control", placeholder = "Nearest LandMark" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.NearestLandMark, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">AddressLine1 <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.AddressLine1, new { htmlAttributes = new { @class = "form-control", placeholder = "AddressLine1" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.AddressLine1, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">AddressLine2 <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.AddressLine2, new { htmlAttributes = new { @class = "form-control", placeholder = "AddressLine2" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.AddressLine2, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="col-md-6">
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">City <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.City, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">State <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.State, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.State, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">ZipCode <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.ZipCode, new { htmlAttributes = new { @class = "form-control", placeholder = "ZipCode" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.ZipCode, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">Country <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.Country, new { htmlAttributes = new { @class = "form-control", placeholder = "Country" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.Country, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group required">
+                                                                <label for="InputName" class="col-md-9">AddressTitle <sup>*</sup> </label>
+                                                                <div class="col-md-9">
+                                                                    @Html.EditorFor(model => model.BillingModel.AddressTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Title" } })
+                                                                    @Html.ValidationMessageFor(model => model.BillingModel.AddressTitle, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+                                                            <button type="submit" class="btn   btn-primary">
+                                                                <i class="fa fa-map-marker"></i> Save Address
+                                                            </button>
+
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--shipping imformation-->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingTwo">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Shippinginformation"
+                                                       aria-expanded="false" aria-controls="collapseTwo">
+                                                        Shipping information
+                                                    </a>
+                                                </h4>
+                                            </div>
+
+                                            <div id="Shippinginformation" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="Shippinginformation">
+                                                <div class="panel-body">
+
+                                                    <form class="form-inline" action="page" method="post">
+                                                        <label class="radio inline">
+                                                            <input id="existingShippingAddress" type="radio" value="option-b3"
+                                                                   name="add"> Existing Shipping
+                                                            address
+                                                        </label>
+                                                        <label class="radio inline">
+                                                            <input id="sameBillingAddress" type="radio"
+                                                                   value="option-b1" name="add"> Same as
+                                                            Billing address
+                                                        </label>&nbsp;&nbsp;
+                                                        <label class="radio inline">
+                                                            <input id="newShippingAddress" type="radio" value="option-b2"
+                                                                   name="add"> New Shipping
+                                                            address
+                                                        </label>
+                                                    </form>
+                                                    <hr>
+                                                    <div style="clear: both"></div>
+                                                    <div id="exisitingShippingAddressBox" class="collapse in">
+                                                        <div class="form-group uppercase">
+                                                            <strong>
+                                                                Select Billing
+                                                                address
+                                                            </strong>
+                                                        </div>
+                                                        <form>
+
+                                                            <div class="form-group required maxwidth300">
+                                                                <label for="InputCountry">
+                                                                    Select Address <sup>*</sup>
+                                                                </label>
+                                                                @Html.DropDownListFor(model => model.ShippingAddressValue, new SelectList(ViewBag.AddressTitle, "Value", "Text"), "-Select Address Title-", new { @class = "form-control" })
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    
+                                                    <div class="expandBox collapse" id="newShippingAddressBox">
+
+                                                        <div class="form-group uppercase">
+                                                            <strong>new shipping address</strong>
+                                                        </div>
+
+                                                        <div class="col-xs-12">
+
+                                                            <div class="col-md-6">
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">First Name <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.FirstName, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">Last Name <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.LastName, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">Company <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.Company, new { htmlAttributes = new { @class = "form-control", placeholder = "Company" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.Company, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">Mobile <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.Mobile, new { htmlAttributes = new { @class = "form-control", placeholder = "Mobile" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.Mobile, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">NearestLandMark <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.NearestLandMark, new { htmlAttributes = new { @class = "form-control", placeholder = "Nearest LandMark" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.NearestLandMark, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">AddressLine1 <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.AddressLine1, new { htmlAttributes = new { @class = "form-control", placeholder = "AddressLine1" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.AddressLine1, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">AddressLine2 <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.AddressLine2, new { htmlAttributes = new { @class = "form-control", placeholder = "AddressLine2" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.AddressLine2, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-6">
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">City <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.City, new { htmlAttributes = new { @class = "form-control", placeholder = "City" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.City, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">State <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.State, new { htmlAttributes = new { @class = "form-control", placeholder = "State" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.State, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">ZipCode <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.ZipCode, new { htmlAttributes = new { @class = "form-control", placeholder = "ZipCode" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.ZipCode, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">Country <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.Country, new { htmlAttributes = new { @class = "form-control", placeholder = "Country" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.Country, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group required">
+                                                                    <label for="InputName" class="col-md-9">AddressTitle <sup>*</sup> </label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.EditorFor(model => model.ShippingModel.AddressTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Address Title" } })
+                                                                        @Html.ValidationMessageFor(model => model.ShippingModel.AddressTitle, "", new { @class = "text-danger" })
+                                                                    </div>
+                                                                </div>
+
+                                                                <button type="submit" class="btn   btn-primary">
+                                                                    <i class="fa fa-map-marker"></i> Save Address
+                                                                </button>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--order summery-->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Deliverymethod" aria-expanded="false"
+                                                       aria-controls="Deliverymethod">
+                                                        Order Summary
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="Deliverymethod" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="Deliverymethod">
+                                                <div class="panel-body">
+                                                    <div class="row" id="indexListing">
+                                                        @Html.Action("GetCartResultList", "ShoppingCart", new { request = "", isAjaxRequest = false })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--payment method-->
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                       data-parent="#accordion" href="#Paymentmethod" aria-expanded="false"
+                                                       aria-controls="Paymentmethod">
+                                                        Payment method
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="Paymentmethod" class="panel-collapse collapse" role="tabpanel"
+                                                 aria-labelledby="Paymentmethod">
+                                                <div class="panel-body">
+
+                                                    <div class="onepage-payment">
+
+                                                        <div class="payment-method">
+                                                            <label class="radio-inline" for="paypal">
+                                                                <input name="radios" id="paypal" value="4" type="radio">
+                                                                <img src="~/Content/images/site/payment/paypal-small.png" height="18"
+                                                                     alt="paypal"> Checkout with Paypal
+                                                            </label>
+
+                                                        </div>
+
+                                                        <div style="clear:both;"></div>
+
+                                                        <div class="creditCardcollapse payment-method">
+
+                                                            <label class="radio-inline" for="creditCard">
+                                                                <input type="radio" name="radios" id="creditCard" value="">
+                                                                <img style="height: 30px;" class="pull-right"
+                                                                     src="~/Content/images/site/card-payment.jpg" alt="card-payment">
+                                                            </label>
+
+                                                        </div>
+                                                        <div style="clear:both;"></div>
+
+                                                        <div id="creditCardCollapse" class="creditCard collapse ">
+                                                            <div class="container">
+
+                                                                <div class="row">
+                                                                    <div class="col-md-4 col-md-offset-4">
+                                                                        <div class="credit-card-div">
+                                                                            <div class="panel panel-default">
+                                                                                <div class="panel-heading">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                                            <h5 class="text-muted"> Credit Card Number</h5>
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <input type="text" class="form-control" placeholder="0000" />
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <input type="text" class="form-control" placeholder="0000" />
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <input type="text" class="form-control" placeholder="0000" />
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <input type="text" class="form-control" placeholder="0000" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row ">
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <span class="help-block text-muted small-font"> Expiry Month</span>
+                                                                                            <input type="text" class="form-control" placeholder="MM" />
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <span class="help-block text-muted small-font">  Expiry Year</span>
+                                                                                            <input type="text" class="form-control" placeholder="YY" />
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <span class="help-block text-muted small-font">  CCV</span>
+                                                                                            <input type="text" class="form-control" placeholder="CCV" />
+                                                                                        </div>
+                                                                                        <div class="col-md-3 col-sm-3 col-xs-3">
+                                                                                            <i class="fa fa-3x fa-credit-card"></i>
+                                                                                            @*<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAGp0lEQVR4nO1YPY8cxxF9NdOzPbN7JG/PkuiA9gVHGDBlKiVghfoFBMhAkAAJzvkrqIgBI8b8AWcSTu3YBgQJJmRDDkQ4smgTMAjwyL3jzs7OTD8HM/01O3c8wwKsYBt7d9XV1VWvPrq694Dt2I7t2I7t+B+GjDHv3Lkzyv+hBgkA/K/2PHjwYHRDBPT+/fs70+n0o7Zt94ZrPySYt+1h/AsAUFXV8unTp38yxvz74cOHteU7kPfu3du5efPm7w8ODn49bnTc4BiYIY+e+db1Ifhw7dmzZ3+/e/fux+v1+q+Hh4ctACRWyWw2++jq1asfioh1SgBID1w8XyRcE4H0PDh56dcDPYhoxvpp6cBuB15AT1+58rNfXP/gg0/atr1gcSsAuHXrlrx8+XLv22//5jyO/oL202XCRiv4Sytg5y7iRLeFG3T3octI70yvi4E9z3v96tVPARQAXjkH6rrGP75/Jr99/Dta46TxtOE4P5wbgrRyXsYYkjRWPtAZ6fEyvS3TzQPdnTxEEoi4ylEAYAxBY0BjJFAoxhsVD9DJxHPTy8UypKGQBoZu3YKX03U48B2GQF7SNOouyqUZgDEmjGxAuyjARNEP5MzIvjEeebqdc8inSRIcOecArCADBXGKzUgZ2MiaQO6U1EfrfTbN0NY55BNyLAPdgTWuhIYp7tPqyyQ0LN6AES8/VipDPW8rrU15UgFjDhD9wTEj5WMBm8F8JPVRiZmhntPLzZxTfnjnKABI0xQCAVtjS8BG5qxOE5TXRtmRNF1ziOXPLJXzym84kGUZ3n//Gj77/HMJrr7+Yulp3/gtHyQIUHopS7MrU1qRsb3sL6mOZqzDsXuZTk0nc3h4iCdPnsQOKKWgtcZ8dxcWXHi4Y1rcejj3YnbNFqY/Y26VMX+MdnYZaCGgdb6ZgQCgC3pABnCs5ghMOGfAxBjtyVA8pulv9ci94QMvcoD+HYKyLKmyTKwjXSqHtHNZGKSZfdkg5o3Q3TuoD1Wnc8Dv3kGEUoqz6Uxi6BsZcKAgItCTie8GPiv9T/BeCeZdMvp5B8IlKJyTXt+yLGHaFoad3SRJ0DQNRARN0yDLMiiVubfW0Im4hHxoYYyNle0MDjQHoBk44mNqQdPFGX7J6/z6q69AGs5mO3j+/Dn29/e5WCxwdHSE+XzOX12/Dq21K+ngsG060D9rbVsbpN4BlCDSXQl5ZNIDdpdRXCpdCfUGhCB+ee0aiyKXqlrj5/v7nM2mcvTyCAdXD1gUUymKwqbvbSXUeWBHWZa9w4OuEnQXf37DMtuU88/hsNQ6O3t7c4BAnueutN67fDnSkSRJv+8UB1zH6tFOtB7tEiGWMzvImT1mnLHReYKPTXjUk+IMuAUJwi7BUnDRdJdU0CGHF0/PcyBHad+pQAxo38tt2TC8HMccsOk/X5+OW3K4yUVvM7phhs6INEZFguWBB4Mz4KN5fHwiIoLWtBSIJEkCY1oaUnKdI8syLMsl26YVQ4NpMeXxybEkSUIAorXGJJtwtVpJ/55n27aSJAmatqX02djZ2WHTNFIuSxhjmKpUQKBpW2ZKSdO2mM1mYZZOdyA8eOt6japaI89zqDTFqlphkk2wWpVdWwNRVWu0bYu6rrFYHENrjbouoXUOkRqZylCtK5ycvEGWZUiSBAJAZRnW6zWKogAJNE2LumlgTIuT5RIgkaYK1IRSCj6HZ5UQwmwTaap48aLGalVB5ZokofUEVVUxTVKARJYpiICZUpjOpnj9esFLly5huSyZZQoEMckm/MmeRtM0WNdrpkkKYwzqumaSJNCTCZRKaYyB1jmmxZQEUa0qZJlimqa2A4110fD7APp7oBO+eOGCAERRFAQh3c0Mzudzd4h7Y+7ZsLt7SUBQ69y9RidaC0CoLGNe5E52Z2fm7plEEpnP574RgJhMdNcw6A6OhIdtMwNBrx4cUkcHh3GT9ufUZ9odu4DnT2NUGvRG3N6hPEfSEL2FHOABmNPoMSfCWnUQzgC36VgMOHYUwMADBQBN06Cumyp48Yx0zY3Lyje/UzrjWFsMnBksB33SOxj40FGtaWsAJnLg0aNH3N3d/fLFixf/eufdd67A1pxXJ4ESGQCOL7JxnsUngcsSAB7Ie1vuawkpi8Xi5Ol33/0ZwDJyAADKsvznF1/c/fTGjRu/yfP8MoHUp4yeHPA2pxzlbZbA+XiWs16vy798880f37x58wcAJ1Ys+hf67du3M2PMLoALCP7x+yMZDYAFgNePHz9u/99gtmM7tmM7tuPHMf4DjEOG/uidi0QAAAAASUVORK5CYII="
+                                                                                                class="img-rounded" />*@
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row ">
+                                                                                        <div class="col-md-12 pad-adjust">
+                                                                                            <input type="text" class="form-control" placeholder="Name On The Card" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-12 pad-adjust">
+                                                                                            <div class="checkbox">
+                                                                                                <label>
+                                                                                                    <input type="checkbox" checked class="text-muted"> Save details for fast payments. <a href="#">Learn More</a>
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row ">
+                                                                                        <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
+                                                                                            <input type="submit" class="btn btn-danger" value="CANCEL" />
+                                                                                        </div>
+                                                                                        <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
+                                                                                            <input type="submit" class="btn btn-success btn-block" value="PAY NOW" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- CREDIT CARD DIV END -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @*<div class="paymentInput">
+                                                                    <label for="CardNumber">Credit Card Number *</label>
+                                                                    <br>
+                                                                    <input id="CardNumber" type="text" name="Number">
+                                                                </div>
+                                                                <!--paymentInput-->
+                                                                <div class="paymentInput">
+                                                                    <label for="CardNumber2">Name on Credit Card *</label>
+                                                                    <br>
+                                                                    <input type="text" name="CardNumber2" id="CardNumber2">
+                                                                </div>
+                                                                <!--paymentInput-->
+                                                                <div class="paymentInput">
+                                                                    <div class="form-group">
+                                                                        <label>Expiration date *</label>
+                                                                        <br>
+
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4 no-margin-left no-padding">
+                                                                            <select required aria-required="true" name="expire">
+                                                                                <option value="">Month</option>
+                                                                                <option value="1">01 - January</option>
+                                                                                <option value="2">02 - February</option>
+                                                                                <option value="3">03 - March</option>
+                                                                                <option value="4">04 - April</option>
+                                                                                <option value="5">05 - May</option>
+                                                                                <option value="6">06 - June</option>
+                                                                                <option value="7">07 - July</option>
+                                                                                <option value="8">08 - August</option>
+                                                                                <option value="9">09 - September</option>
+                                                                                <option value="10">10 - October</option>
+                                                                                <option value="11">11 - November</option>
+                                                                                <option value="12">12 - December</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                                                            <select required aria-required="true" name="year">
+                                                                                <option value="">Year</option>
+                                                                                <option value="2013">2013</option>
+                                                                                <option value="2014">2014</option>
+                                                                                <option value="2015">2015</option>
+                                                                                <option value="2016">2016</option>
+                                                                                <option value="2017">2017</option>
+                                                                                <option value="2018">2018</option>
+                                                                                <option value="2019">2019</option>
+                                                                                <option value="2020">2020</option>
+                                                                                <option value="2021">2021</option>
+                                                                                <option value="2022">2022</option>
+                                                                                <option value="2023">2023</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!--paymentInput-->
+
+                                                                <div style="clear:both"></div>
+                                                                <div class="paymentInput clearfix">
+                                                                    <label for="VerificationCode">Verification Code *</label>
+                                                                    <br>
+                                                                    <input type="text" id="VerificationCode"
+                                                                           name="VerificationCode" style="width:90px;">
+                                                                    <br>
+                                                                </div>
+                                                                <!--paymentInput-->
+
+                                                                <div>
+                                                                    <input type="checkbox" name="saveInfo" id="saveInfoid">
+                                                                    <label for="saveInfoid">
+                                                                        &nbsp;Save my Card
+                                                                        information
+                                                                    </label>
+                                                                </div>*@
+
+                                                        </div>
+                                                        <!--creditCard-->
+
+
+                                                        <div class="card-paynemt-box payment-method">
+
+
+                                                            <label class="radio-inline" for="CashOnDelivery"
+                                                                   data-toggle="collapse"
+                                                                   data-target="#CashOnDeliveryCollapse"
+                                                                   aria-expanded="false"
+                                                                   aria-controls="CashOnDeliveryCollapse">
+                                                                <input name="radios" id="CashOnDelivery" value="4"
+                                                                       type="radio">
+                                                                Cash On Delivery
+                                                            </label>
+
+                                                            <div class="collapse" id="CashOnDeliveryCollapse">
+
+                                                                <p>
+                                                                    All transactions are secure and encrypted, and we
+                                                                    neverstor
+                                                                    To learn more, please view our privacy policy.
+                                                                </p>
+
+
+                                                                <div class="form-group">
+                                                                    <label for="CommentsOrder">
+                                                                        Add Comments About Your
+                                                                        Order
+                                                                    </label>
+                                                                    <textarea id="CommentsOrder" class="form-control"
+                                                                              name="CommentsOrder" cols="26"
+                                                                              rows="3"></textarea>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group clearfix">
+                                                            <br>
+                                                            <label class="checkbox-inline" for="checkboxes-1">
+                                                                <input name="checkboxes" id="checkboxes-1" value="1"
+                                                                       type="checkbox">
+                                                                I have read and agree to the <a href="terms-conditions.html">Terms & Conditions</a>
+                                                            </label>
+                                                        </div>
+                                                        <div class="pull-left">
+                                                            <button type="submit"
+                                                               class="btn btn-primary btn-lg ">
+                                                                Order &nbsp; <i class="fa fa-arrow-circle-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                            <!--onepage-checkout-->
+
+
+                        </div>
+                        <!--/row end-->
+
+                    </div>
+
+
+                </div>
+            </div>
+            <!--/row end-->
+
+        </div>
+        @*<div class="col-lg-3 col-md-3 col-sm-12 rightSidebar">
+                <div class="w100 cartMiniTable">
+                    <table id="cart-summary" class="std table">
+                        <tbody>
+                            <tr>
+                                <td>Total products</td>
+                                <td class="price">$216.51</td>
+                            </tr>
+                            <tr style="">
+                                <td>Shipping</td>
+                                <td class="price"><span class="success">Free shipping!</span></td>
+                            </tr>
+                            <tr class="cart-total-price ">
+                                <td>Total (tax excl.)</td>
+                                <td class="price">$216.51</td>
+                            </tr>
+                            <tr>
+                                <td>Total tax</td>
+                                <td class="price" id="total-tax">$0.00</td>
+                            </tr>
+                            <tr>
+                                <td> Total</td>
+                                <td class=" site-color" id="total-price">$216.51</td>
+                            </tr>
+                        </tbody>
+                        <tbody></tbody>
+                    </table>
+
+
+                </div>
+
+
+            </div>*@
+        <!--/rightSidebar-->
+
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+</div>
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $('input#newAddress').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#newBillingAddressBox').collapse("show");
+            $('#exisitingAddressBox').collapse("hide");
+
+        });
+
+        $('input#exisitingAddress').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#newBillingAddressBox').collapse("hide");
+            $('#exisitingAddressBox').collapse("show");
+        });
+
+        $('input#existingShippingAddress').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#exisitingShippingAddressBox').collapse("show");
+            $('#newShippingAddressBox').collapse("hide");         
+        });
+
+
+        $('input#newShippingAddress').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#newShippingAddressBox').collapse("show");
+            $('#exisitingShippingAddressBox').collapse("hide");
+        });
+
+        $('input#sameBillingAddress').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#newShippingAddressBox').collapse("hide");
+            $('#exisitingShippingAddressBox').collapse("hide");
+        });
+
+
+        $('input#creditCard').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#creditCardCollapse').collapse("toggle");
+
+        });
+
+
+        $('input#CashOnDelivery').on('ifChanged', function (event) {
+            //alert(event.type + ' callback');
+            $('#CashOnDeliveryCollapse').collapse("toggle");
+
+        });
+
+
+    });
+
+
+</script>
+
+

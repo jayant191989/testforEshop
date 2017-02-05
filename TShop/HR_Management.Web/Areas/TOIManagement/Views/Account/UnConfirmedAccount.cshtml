@@ -1,0 +1,16 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+    ViewBag.Title = "UnConfirmedAccount";
+}
+
+<h2>UnConfirmedAccount</h2>
+@using (Html.BeginForm("ReGenrateEmailConfirmation", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.Hidden("Email", (string)ViewBag.Email)
+    <input type="submit" value="Resend Email Confirmation" class="btn btn-primary">
+}
+
+

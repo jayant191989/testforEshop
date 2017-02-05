@@ -1,0 +1,102 @@
+﻿
+@model HR_Management.Web.ViewModels.ApplicationFormViewModel
+
+<div class="box-inner">
+    <div class="box-content">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <h2>Approving Application Form</h2>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => Model.applicationFormStatus)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        <select class="form-control" name="Type" id="Leave">
+                            <option value="Leave" selected="selected">Leave</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-2 ">Current Date</label>
+                    <div class="input-group col-md-4">
+                        @Html.EditorFor(model => model.CurrentDate, "DateReadOnly")
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label class="control-label col-md-2">From Date</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.FromDate, "DateWithPicker")
+                        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TillDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.TillDate, "DateWithPicker")
+                        @Html.ValidationMessageFor(model => model.TillDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2">Description</label>
+                    <div class="compose-editor" style="margin-top:10px;">
+                        <div class="col-md-10">
+                            <textarea id="text-editor" class="ckeditor" placeholder="Enter text ..." rows="25"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.DropDownList("EmployeeId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" name="Command" value="PromoteToApproved" class="btn btn-success">Promote to Approved</button>
+                        <button type="submit" name="Command" value="DemoteToCreated" class="btn btn-danger">Demote to Created</button>
+                        <button type="submit" name="Command" value="DemoteToRejected" class="btn btn-danger">Demote to Rejected</button>
+                        <button type="submit" name="Command" value="DemoteToCanceled" class="btn btn-danger">Demote to Canceled</button>
+                        <button type="submit" name="Command" value="Relinquish" class="btn btn-warning">Relinquish</button>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-xs" })
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,121 @@
+﻿@model HR_Management.Web.Helpers.ViewDataUploadFilesResult
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Backload/Client/blueimp/fileupload/css/jquery.fileupload.css" rel="stylesheet" />
+<link href="~/Backload/Client/blueimp/fileupload/css/jquery.fileupload-ui.css" rel="stylesheet" />
+<link href="~/Backload/Client/blueimp/gallery/css/blueimp-gallery.min.css" rel="stylesheet" />
+<link href="~/Backload/Client/blueimp/gallery/css/blueimp-gallery-video.css" rel="stylesheet" />
+<link href="~/Backload/Client/blueimp/gallery/css/blueimp-gallery-indicator.css" rel="stylesheet" />
+
+
+<h2>Product Images File Upload</h2>
+@Html.HiddenFor(m => m.productId, new { @class = "productId" })
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>ProductImage</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Path, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Path, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Path, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Extention, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Extention, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Extention, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsActive)
+                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }*@
+<script>
+    var $form = null;
+    $(function () {
+
+        $form = $('#fileupload').fileupload({
+            dataType: 'json'
+        });
+
+    });
+    $('#fileupload').addClass('fileupload-processing');
+    var productId = $(".productId").val();
+  //  alert(productId)
+    $.ajax({
+        type: 'GET',
+        contentType: "application/json; charset=utf-8",
+        url: '/TOIManagement/ProductImages/GetFileList/',
+        data: { productId: productId },
+        success: function (data) {
+            $('#fileupload').fileupload('option', 'done').call($('#fileupload'), $.Event('done'), { result: { files: data.files } })
+            $('#fileupload').removeClass('fileupload-processing');
+        }
+    }
+
+    );
+</script>
+@Html.Partial("_Files", Model)
+<div>
+    @Html.ActionLink("Back to List", "Index","Products",null, new { @class = "btn btn-primary btn-xs" })
+</div>
+<script src="~/Backload/Client/blueimp/fileupload/js/vendor/jquery.ui.widget.js"></script>
+<script src="~/Backload/Client/blueimp/templates/js/tmpl.min.js"></script>
+<script src="~/Backload/Client/blueimp/loadimage/js/load-image.all.min.js"></script>
+<script src="~/Backload/Client/blueimp/blob/js/canvas-to-blob.min.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.iframe-transport.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-process.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-image.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-audio.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-video.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-validate.js"></script>
+<script src="~/Backload/Client/blueimp/gallery/js/blueimp-gallery.min.js"></script>
+<script src="~/Backload/Client/blueimp/gallery/js/blueimp-gallery-video.js"></script>
+<script src="~/Backload/Client/blueimp/gallery/js/blueimp-gallery-indicator.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/jquery.fileupload-ui.js"></script>
+<script src="~/Backload/Client/blueimp/gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="~/Backload/Client/blueimp/fileupload/js/themes/jquery.fileupload-themes.js"></script>
+

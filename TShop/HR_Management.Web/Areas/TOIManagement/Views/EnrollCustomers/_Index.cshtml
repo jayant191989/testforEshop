@@ -1,0 +1,66 @@
+﻿@model IEnumerable<HR_Management.Models.EnrollCustomer>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Enrolled Customers</strong>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FathersName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            <th>
+                @Html.ActionLink("Add", "Create", "EnrollCustomers", new { membershipId = ViewBag.MembershipId },
+                new { @class = "btn btn-primary btn-xs", data_modal = "enroll" })
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FathersName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Edit", "EnrollCustomers", new { id = item.Id }, new { @class = "btn btn-default btn-xs" }) |
+                    @Html.ActionLink("Delete", "Delete", "EnrollCustomers",
+                                         new { id = item.Id }, new { @class = "btn btn-danger btn-xs", data_modal = "enroll" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,116 @@
+﻿
+<div class="col-sm-2 col-lg-2">
+    <div class="sidebar-nav left_nav_fixed">
+        <div class="nav-canvas">
+            <div class="nav-sm nav nav-stacked">
+
+            </div>
+            <ul class="nav nav-pills nav-stacked main-menu">
+                <li class="nav-header">Main</li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Home")"><i class="glyphicon glyphicon-home"></i><span> Dashboard</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Memberships")"><i class="glyphicon glyphicon-user"></i><span> Memberships</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Customers")"><i class="glyphicon glyphicon-user"></i><span> Customers</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Branches")"><i class="glyphicon glyphicon-user"></i><span> Branch</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Departments")"><i class="glyphicon glyphicon-user"></i><span> Departments</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Employees")"><i class="glyphicon glyphicon-user"></i><span> Employees</span></a>
+                </li>              
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-briefcase"></i><span> Category & Attributes</span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Attributes", "Index", "ProductsAttributes")</li>
+                        <li>@Html.ActionLink("Products Category", "Index", "ProductCategories")</li>                     
+                    </ul>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Products")"><i class="fa fa-2x fa-product-hunt"></i><span> Products</span></a>
+                </li>
+                <li>                   
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-plus"></i><span> Stores & Batches</span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Stores", "Index", "Stores")</li>
+                        <li>@Html.ActionLink("Batches", "Index", "Batches")</li>                       
+                    </ul>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "StoreProducts")"><i class="fa fa-2x fa-home"></i><span> StoreProducts</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Daily")"><i class="fa fa-2x fa-calendar"></i><span> Daily</span></a>
+                </li>
+                <li>
+                    <a class="ajax-link" href="@Url.Action("Index", "Particular")"><i class="glyphicon glyphicon-edit"></i><span> Particular</span></a>
+                </li>
+                @if (User.IsInRole("SuperAdmin"))
+                {
+                    <li class="accordion">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-plus"></i><span> User & Roles</span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Roles", "Index", "ApplicationRoles")</li>
+                            <li>@Html.ActionLink("Users", "Index", "ApplicationUsers")</li>
+                        </ul>
+                    </li>
+                }
+                
+                <li class="nav-header hidden-md">Cal.</li>
+            </ul>
+        </div>
+        <div>
+            <form name="Calc">
+                <table border=4>
+                    <tr>
+                        <td>
+                            <input type="text" name="Input" size="16">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="one" value=" 1 " onclick="Calc.Input.value += '1'">
+                            <input type="button" name="two" value=" 2 " onclick="Calc.Input.value += '2'">
+                            <input type="button" name="three" value=" 3 " onclick="Calc.Input.value += '3'">
+                            <input type="button" name="plus" value=" + " onclick="Calc.Input.value += ' + '">
+                            <br>
+                            <input type="button" name="four" value=" 4 " onclick="Calc.Input.value += '4'">
+                            <input type="button" name="five" value=" 5 " onclick="Calc.Input.value += '5'">
+                            <input type="button" name="six" value=" 6 " onclick="Calc.Input.value += '6'">
+                            <input type="button" name="minus" value=" - " onclick="Calc.Input.value += ' - '">
+                            <br>
+                            <input type="button" name="seven" value=" 7 " onclick="Calc.Input.value += '7'">
+                            <input type="button" name="eight" value=" 8 " onclick="Calc.Input.value += '8'">
+                            <input type="button" name="nine" value=" 9 " onclick="Calc.Input.value += '9'">
+                            <input type="button" name="times" value=" x " onclick="Calc.Input.value += ' * '">
+                            <br>
+                            <input type="button" name="clear" value=" c " onclick="Calc.Input.value = ''">
+                            <input type="button" name="zero" value=" 0 " onclick="Calc.Input.value += '0'">
+                            <input type="button" name="DoIt" value=" =" onclick="Calc.Input.value = eval(Calc.Input.value)">
+                            <input type="button" name="div" value="  /  " onclick="Calc.Input.value += ' / '">
+                            <br>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            @*<p align="center">
+                    <font face="arial" size="-2">This free script provided by</font><br>
+                    <font face="arial, helvetica" size="-2">
+                        <a href="http://javascriptkit.com">
+                            JavaScript
+                            Kit
+                        </a>
+                    </font>
+                </p>*@
+        </div>
+    </div>
+</div>
+

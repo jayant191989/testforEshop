@@ -1,0 +1,555 @@
+﻿@model HR_Management.ShoppingCartBL.ViewModels.HomeViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="resultMessage"></div>
+
+<!-- Header -->
+<div class="banner">
+    <div class="full-container">
+        <div class="slider-content">
+            <ul id="pager" class="container"></ul>
+            <div class="slider slider-v2">
+                <div class="slider-item slider-item-img1 "
+                     data-cycle-pager-template="<a href=#> LATEST COLLECTION </a>">
+                    <div class="sliderInfo">
+                        <div class="container">
+                            <div class="col-lg-5 col-md-5 col-sm-5 pull-right sliderText dark alpha80 hidden-xs">
+                                <div class="inner">
+                                    <h1>LATEST COLLECTION</h1>
+
+                                    @*<p class="hidden-xs">
+                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                                            sed diam nonummy nibh euismod tincidunt ut
+                                            laoreet dolore magna aliquam erat volutpa
+                                        </p>*@
+                                    <a href="category.html" class="slide-link">
+                                        SHOP NOW <span class="arrowUnicode">►</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img alt="img" src="~/Content/COMING-SOON.jpg" class="img-responsive parallaximg sliderImg">
+                </div>
+                <!--/.slider-item-->
+
+                <div class="slider-item slider-item-img2  parallax"
+                     data-cycle-pager-template="<a href=#> BEST OFFERS </a>">
+                    <div class="sliderInfo">
+                        <div class="container">
+                            <div class="col-lg-5 col-md-5 col-sm-5 pull-left sliderText dark alpha80 hidden-xs">
+                                <div class="inner">
+                                    <h1>BEST OFFERS</h1>
+
+                                    @*<p class="hidden-xs">
+                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                                            sed diam nonummy nibh euismod tincidunt ut
+                                            laoreet dolore magna aliquam erat volutpa
+                                        </p>*@
+                                    <a href="category.html" class="slide-link">
+                                        SHOP NOW <span class="arrowUnicode">►</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img alt="img" src="~/Content/COMING-SOON.jpg" class="img-responsive parallaximg sliderImg">
+                </div>
+                <!--/.slider-item-->
+
+                <div class="slider-item slider-item-img3  parallax"
+                     data-cycle-pager-template="<a href=#> SPORTS COLLECTION </a>">
+                    <div class="sliderInfo">
+                        <div class="container">
+                            <div class="col-lg-4 col-md-4 col-sm-5 pull-right sliderText dark alpha80 transformRight hidden-xs">
+                                <div class="inner">
+                                    <h1>SPORTS COLLECTION</h1>
+
+                                    @*<p class="hidden-xs">
+                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                                            sed diam nonummy nibh euismod tincidunt ut
+                                            laoreet dolore magna aliquam erat volutpa
+                                        </p>*@
+                                    <a href="category.html" class="slide-link">
+                                        SHOP NOW <span class="arrowUnicode">►</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img alt="img" src="~/Content/COMING-SOON.jpg" class="img-responsive parallaximg sliderImg">
+                </div>
+                <!--/.slider-item-->
+            </div>
+            <!--/.slider-v2-->
+        </div>
+        <!--/.slider-content-->
+    </div>
+    <!--/.full-container-->
+</div>
+<!--/.banner style1-->
+
+<div class="container main-container">
+
+    <!-- Main component call to action -->
+
+    <div class="row featuredPostContainer globalPadding style2">
+        <h3 class="section-title style2 text-center"><span>NEW ARRIVALS</span></h3>
+
+        <div id="productslider" class="owl-carousel owl-theme">
+            @foreach (var item in Model.NewArrivalList)
+            {
+                <div class="item">
+                    <div class="product">
+                        <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"
+                           data-placement="left">
+                            <i class="glyphicon glyphicon-heart"></i>
+                        </a>
+
+                        <div class="image">
+                            <div class="quickview">
+                                <a class="btn btn-xs btn-quickview getproductdetail" id="@item.Id">
+                                    Quick View
+                                </a>
+                            </div>
+                            <a href="@Url.Action("ProductDetail","Product",new { Id=item.Id ,isAjaxReq=false})">
+                                @if (item.ThumbMainImageName != null)
+                                {
+                                    <img id="blah" class="img-responsive img-portfolio img-hover" style="width:180px;height:240px"
+                                         src="@Url.Content("~/Images/Upload/" + item.CategoryName +"/" + item.ThumbMainImageName + "_medium.jpg")" alt="img" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/noimage.jpg" alt="img"
+                                         class="img-responsive">
+                                }
+                            </a>
+                            <div class="promotion">
+                                @if (item.Discount == 0 || item.Discount == null)
+                                {
+                                    <span class="new-product"> NEW</span>
+                                }
+                                else
+                                {
+                                    <span class="new-product"> NEW</span> <span class="discount">@item.Discount.Value.ToString("0.##")% OFF</span>
+                                }
+                            </div>
+
+                        </div>
+                        <div class="description">
+                            <h4><a href="@Url.Action("ProductDetail","Product",new { Id=item.Id,isAjaxReq=false})">@item.Title</a></h4>
+                            <p>
+                                @item.AutoGenerateName
+                                @*@if (string.IsNullOrEmpty(item.Discription))
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    @Html.Raw(item.Discription.Substring(0, Math.Min(item.Discription.Length, 50)))
+                                }*@
+
+                            </p>
+                            @*<a href="@Url.Action("ReadFullBlog", "Home", new { })">Continue Reading</a>*@
+                            <span class="size">XL / XXL / S </span>
+                        </div>
+                        <div class="price"><span><i class="fa fa-rupee"></i> @item.SalePrice</span></div>
+                        <div class="action-control">
+                            <a class="btn btn-primary cart" id="@item.Id">
+                                <span class="add2cart">
+                                    <i class="glyphicon glyphicon-shopping-cart"></i> Add to cart
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <!--/.productslider-->
+
+    </div>
+    <!--/.featuredPostContainer-->
+</div>
+<!-- /main container -->
+@*<div class="container main-container">
+        <!-- Main component call to action -->
+        <div class="morePost row featuredPostContainer style2 globalPaddingTop ">
+            <h3 class="section-title style2 text-center"><span>FEATURES PRODUCT</span></h3>
+
+            <div class="container">
+                <div class="row xsResponse">
+                    <div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                        <div class="product">
+                            <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"
+                               data-placement="left">
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+
+                            <div class="image">
+                                <div class="quickview">
+                                    <a data-toggle="modal" class="btn btn-xs btn-quickview" href="ajax/product.html"
+                                       data-target="#productSetailsModalAjax">Quick View</a>
+                                </div>
+                                <a href="product-details.html">
+                                    <img src="~/Content/images/product/30.jpg" alt="img"
+                                         class="img-responsive">
+                                </a>
+
+                                <div class="promotion">
+                                    <span class="new-product"> NEW</span> <span class="discount">15% OFF</span>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <h4><a href="product-details.html">aliquam erat volutpat</a></h4>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                <span class="size">XL / XXL / S </span>
+                            </div>
+                            <div class="price"><span>$25</span> <span class="old-price">$75</span></div>
+                            <div class="action-control">
+                                <a class="btn btn-primary">
+                                    <span class="add2cart">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> Add to cart
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.item-->
+                    <div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                        <div class="product">
+                            <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"
+                               data-placement="left">
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+
+                            <div class="image">
+                                <div class="quickview">
+                                    <a data-toggle="modal" class="btn btn-xs btn-quickview" href="ajax/product.html"
+                                       data-target="#productSetailsModalAjax">Quick View</a>
+                                </div>
+                                <a href="product-details.html">
+                                    <img src="~/Content/images/product/31.jpg" alt="img"
+                                         class="img-responsive">
+                                </a>
+
+                                <div class="promotion"><span class="discount">15% OFF</span></div>
+                            </div>
+                            <div class="description">
+                                <h4><a href="product-details.html">ullamcorper suscipit lobortis </a></h4>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                <span class="size">XL / XXL / S </span>
+                            </div>
+                            <div class="price"><span>$25</span></div>
+                            <div class="action-control">
+                                <a class="btn btn-primary">
+                                    <span class="add2cart">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> Add to cart
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.item-->
+                    <div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                        <div class="product">
+                            <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist"
+                               data-placement="left">
+                                <i class="glyphicon glyphicon-heart"></i>
+                            </a>
+
+                            <div class="image">
+                                <div class="quickview">
+                                    <a data-toggle="modal" class="btn btn-xs btn-quickview" href="ajax/product.html"
+                                       data-target="#productSetailsModalAjax">Quick View</a>
+                                </div>
+                                <a href="product-details.html">
+                                    <img src="~/Content/images/product/34.jpg" alt="img"
+                                         class="img-responsive">
+                                </a>
+
+                                <div class="promotion"><span class="new-product"> NEW</span></div>
+                            </div>
+                            <div class="description">
+                                <h4><a href="product-details.html">demonstraverunt lectores </a></h4>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                                <span class="size">XL / XXL / S </span>
+                            </div>
+                            <div class="price"><span>$25</span></div>
+                            <div class="action-control">
+                                <a class="btn btn-primary">
+                                    <span class="add2cart">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i> Add to cart
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.item-->
+
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="load-more-block text-center">
+                        <a class="btn btn-thin" href="#">
+                            <i class="fa fa-plus-sign">+</i> load more products
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--/.container-->
+        </div>
+        <!--/.featuredPostContainer-->
+        <hr class="no-margin-top">
+        <div class="width100 section-block ">
+            <div class="row featureImg">
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <a href="category.html">
+                        <img src="~/Content/images/site/new-collection-1.jpg"
+                             class="img-responsive" alt="img">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <a href="category.html">
+                        <img src="~/Content/images/site/new-collection-2.jpg"
+                             class="img-responsive" alt="img">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <a href="category.html">
+                        <img src="~/Content/images/site/new-collection-3.jpg"
+                             class="img-responsive" alt="img">
+                    </a>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <a href="category.html">
+                        <img src="~/Content/images/site/new-collection-4.jpg"
+                             class="img-responsive" alt="img">
+                    </a>
+                </div>
+            </div>
+            <!--/.row-->
+        </div>
+        <!--/.section-block-->
+    </div>*@
+
+<!-- Product Details Modal  -->
+<!-- Modal -->
+<!-- /.modal -->
+
+<input type="hidden" id="hididentity" value="@HttpContext.Current.User.Identity.Name" />
+
+<!-- Map -->
+<section id="contact" class="map">
+    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14292.269793056836!2d74.6560728!3d26.4212999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x9cc3c40ce23531af!2sTemple+Of+Iron+GYM%26SPA!5e0!3m2!1sen!2sin!4v1480585395622"></iframe>
+
+</section>
+
+
+@section Scripts {
+    <script>
+        // Disable Google Maps scrolling
+        // See http://stackoverflow.com/a/25904582/1607849
+        // Disable scroll zooming and bind back the click event
+        var onMapMouseleaveHandler = function (event) {
+            var that = $(this);
+            that.on('click', onMapClickHandler);
+            that.off('mouseleave', onMapMouseleaveHandler);
+            that.find('iframe').css("pointer-events", "none");
+        }
+        var onMapClickHandler = function (event) {
+            var that = $(this);
+            // Disable the click handler until the user leaves the map area
+            that.off('click', onMapClickHandler);
+            // Enable scrolling zoom
+            that.find('iframe').css("pointer-events", "auto");
+            // Handle the mouse leave event
+            that.on('mouseleave', onMapMouseleaveHandler);
+        }
+        // Enable map zooming with mouse scroll when the user clicks the map
+        $('.map').on('click', onMapClickHandler);
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("form[name='RegisterForm']").validate({
+                // Specify validation rules
+                rules: {
+                    RegisterName: {
+                        required: true
+                    },
+                    RegisterEmail: {
+                        required: true,
+                        email: true
+                    },
+                    RegisterPassword: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 16,
+                    },
+                    RegisterConfirmPassword: {
+                        // equalTo: "#RegisterPassword",
+                        required: true,
+                        minlength: 10,
+                        maxlength: 16
+                    }
+                },
+                // Specify validation error messages
+                messages: {
+                    RegisterName: "Name is required",
+                    RegisterEmail: "Email is required",
+                    RegisterPassword: {
+                        required: "Password is required"
+                    },
+                    RegisterConfirmPassword: {
+                        required: "Please Confirm Password"
+                    },
+
+                },
+
+                // Make sure the form is submitted to the destination defined
+                // in the "action" attribute of the form when valid
+                //submitHandler: function (form) {
+                //    form.submit();
+                //}
+            });
+        });
+
+        $(document).ready(function () {
+            $(".Register").click(function (e) {
+                e.preventDefault();
+
+                $(".Register").attr("class", "btn btn-primary  Register disabled");
+                var form = "frm";
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                var headers = {};
+                headers['__RequestVerificationToken'] = token;
+                if ($("#" + form).valid()) {
+                    $('#regloader').show();
+
+                    $.ajax({
+                        url: $("#" + form).attr("action"),
+                        type: $("#" + form).attr("method"),
+                        data: $("#" + form).serialize(),
+                        dataType: "json",
+                        headers: headers,
+                        success: function (data) {
+                            if (data != null) {
+                                if (data.objResponse.IsSuccess == "true") {
+                                    //window.location.href = data.PageName;
+                                    // $('#welcomemsg').html("Welcome " + data.objResponse.StrResponse);
+                                    // $("#popupError").html(data.objResponse.StrResponse);
+                                    //$("#myModal").modal('hide');
+                                    //CompDetail();
+                                    showNotification("Successfully Updated", "success");
+                                }
+                                else {
+                                    // $("#popupError").html(data.objResponse.StrResponse);
+                                    showNotification(data.objResponse.StrResponse, "success");
+
+                                }
+                            }
+                            $('#regloader').hide();
+                            $(".Register").attr("class", "btn btn-primary Register");
+                        },
+                        error: function (ts) {
+                            alert(ts.responseText);
+                            $('#regloader').hide();
+                            $(".Register").attr("class", "btn btn-primary Register");
+                        }
+                    });
+                }
+                else {
+                    //alert('error');
+                }
+            });
+        });
+
+        $('.cart').on("click", function (e) {
+           
+            var identity = $('#hididentity').val();
+            var productId = $(this).closest('a').attr("id");
+
+            if (identity == "" || identity == null || identity == undefined) {
+                showNotification("Please Login", "error");
+                //$("#exampleModal").modal({
+                //    keyboard: false,
+                //    backdrop: 'static',
+                //    show: true
+                //});
+                $('#divCreate').html('<div class="alert alert-danger fade in" id="alertBox"> Please Login</div>')
+                $('#spnheadname').text('Login');
+            }
+            else {
+                $('#imgloader').show();
+                $.ajax({                    
+                    url: '/ShoppingCart/AddToCart',
+                    type: 'POST',
+                    datype: 'json',
+                    data: { 'color': 1, 'productId': productId, 'qty': 1 },
+                    success: function (data) {
+                        $('#minicartListing').html(data.html);
+                        showNotification("Successfully Added To Cart", "success");                  
+                        //var cartcount = parseFloat(document.getElementById("cartcount").value).toFixed(0);
+                        //if (isNaN(quantity)) {
+                        //    quantity = 0;
+                        //}
+                        //document.getElementById("cartcount").value = (quantity + 1);
+                        //$("#exampleModal").modal({
+                        //    keyboard: false,
+                        //    backdrop: 'static',
+                        //    show: true
+                        //});
+                        //$('#divCreate').html(data.objResponse.StrResponse)
+                        //$('#spnheadname').text('Cart');
+
+                        $('#imgloader').hide();
+                    },
+                    error: function (xhr, status) {
+                        alert(xhr.responseText);
+                        $('#imgloader').hide();
+                    }
+                });
+            }
+
+        });
+
+
+        $('.getproductdetail').on("click", function (e) {
+            e.preventDefault();
+
+            var productId = $(this).closest('a').attr("id");
+
+            $.ajax({
+                url: '@Url.Action("ProductDetail","Product")',
+                // type: 'POST',
+                data: { Id: productId, isAjaxReq: true },
+                datype: 'json',
+                success: function (data) {
+                    if (data != null) {
+                        $("#resultMessage").html(data.ModelString);
+                        $("#productSetailsModalAjax").modal('show');
+                        //  $.validator.unobtrusive.parse($('#frmEdit'));
+                    }
+                    $("#waiting_fs").hide();
+                },
+                error: function (xhr, status) {
+                    alert(xhr.responseText);
+                    $("#waiting_fs").hide();
+                }
+            });
+        });
+    </script>
+}
+
+
+
+

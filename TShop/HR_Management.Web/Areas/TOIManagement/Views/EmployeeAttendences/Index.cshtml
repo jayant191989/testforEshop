@@ -1,0 +1,87 @@
+﻿@model IEnumerable<HR_Management.Models.EmployeeAttendence>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create Attendence", "Create", null, new { @class = "btn btn-primary btn-xs" })
+</p>
+<div id="content" class="col-lg-10 col-sm-10">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-inner">
+                <div class="box-content">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Attendence.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OutTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WorkHours)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OverTimeHours)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EmployeeId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Attendence.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.InTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OutTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WorkHours)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OverTimeHours)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

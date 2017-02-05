@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <title>QuickMail</title>
+</head>
+<body>
+
+    <h2>Quick EMail</h2>
+    <hr />
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">To :</span>
+                <input type="text" id="to" tabindex="1" class="form-control" placeholder="Email" aria-describedby="sizing-addon2">
+                <div class="compose-options">
+                    <a href="#" onclick="$(this).hide(); $('#cc').parent().removeClass('hidden'); $('#cc').focus();">Cc</a>
+                    <a href="javascript:;" onclick="$(this).hide(); $('#bcc').parent().removeClass('hidden'); $('#bcc').focus();">Bcc</a>
+                </div>
+            </div>
+
+            <div class="input-group hidden col-md-6">
+                <span class="input-group-addon" id="sizing-addon2">CC :</span>
+                <input type="text" id="cc" tabindex="2" class="form-control" placeholder="" subject" aria-describedby="sizing-addon2">
+            </div>
+            <div class="form-group hidden">
+                <label class="" for="bcc">Bcc:</label>
+                <input type="text" class="form-control" id="bcc" tabindex="2" />
+            </div>
+
+            <div class="input-group col-md-6">
+                <span class="input-group-addon" id="sizing-addon2">Subject :</span>
+                <input type="text" id="subject" tabindex="1" class="form-control" placeholder="" subject" aria-describedby="sizing-addon2">
+            </div>
+            <div class="compose-editor" style="margin-top:10px;">
+                <textarea id="text-editor" class="ckeditor" placeholder="Enter text ..." rows="25"></textarea>
+            </div>
+            <div class="compose-editor">
+                <input type="file" class="default" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>

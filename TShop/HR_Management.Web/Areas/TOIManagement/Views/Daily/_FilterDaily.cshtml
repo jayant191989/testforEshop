@@ -1,0 +1,141 @@
+﻿@model IEnumerable<HR_Management.Web.ViewModels.DailyViewModel>
+
+<script>
+    $(document).ready(function () {
+        $('#example3').DataTable({
+            //   aaSorting: [[2, 'asc']],
+            //"processing": true,
+            "aaSorting": [],
+          //  bServerSide: true,
+            dom: 'Bfrtip',
+            //buttons: [
+            //    'copy', 'csv', 'excel', 'pdf', 'print'
+            //],
+            buttons: [
+                {
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                }
+            ],
+            responsive: true,          
+            "iDisplayLength": 50,
+            "searching": true,
+          //  bSortable: true
+        });
+    });
+</script>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-condensed table-bordered" id="example3">
+        <thead>
+            <tr>
+                @*<th class="">
+                </th>*@
+                <th>
+                    Date
+                </th>
+                <th>
+                    <label>Head</label>
+                </th>
+                <th>
+                    <label>Invoice</label>
+                </th>
+                <th>
+                    <label>Ledger</label>
+                </th>
+               
+                <th>
+                    Particular
+                </th>
+                <th>
+                    Credit
+                </th>
+                <th>
+                    Debit
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+
+
+        @{
+            double creditTotal = 0;
+            double debitTotal = 0;
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date, "ShortDate")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Head)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Invoice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ledger)
+                    </td>
+                 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Particular)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Credit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Debit)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
+                    </td>
+                </tr>
+                creditTotal += @Convert.ToDouble(item.Credit);
+                debitTotal += @Convert.ToDouble(item.Debit);
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total :<b><i class="fa fa-rupee"></i> @Convert.ToDouble(@creditTotal - @debitTotal)</b></td>
+                <td>@creditTotal</td>
+                <td>@debitTotal</td>
+                <td> </td>
+            </tr>
+
+        }
+    </table>
+
+</div>
+

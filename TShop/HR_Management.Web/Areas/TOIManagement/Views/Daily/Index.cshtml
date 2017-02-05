@@ -1,0 +1,380 @@
+﻿@model HR_Management.Web.ViewModels.DailyViewModel
+
+@{
+    ViewBag.Title = "Daily Invoices";
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+<style>
+    td.details-control {
+        background: url('../../Content/DataTables/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('../../Content/DataTables/images/details_close.png') no-repeat center center;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        var table = $('#example2').DataTable({
+            //   aaSorting: [[2, 'asc']],
+            "processing": true,
+            "aaSorting": [],
+            //   bServerSide: true,
+            dom: 'Bfrtip',
+            //buttons: [
+            //    'copy', 'csv', 'excel', 'pdf', 'print'
+            //],
+            buttons: [
+                {
+                    extend: 'copy',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'csv',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                    }
+                }
+            ],
+            responsive: true,
+            "ajax": '/TOIManagement/Daily/GetDailyForDatatable',
+            "columns": [
+                {
+                    "className": 'details-control',
+                    "orderable": false,
+                    "data": null,
+                    "defaultContent": ''
+                },
+                {
+                    'data': 'Date',
+                    'render': function (jsonDate) {
+                        if (!jsonDate) {
+                            return jsonDate;
+                        }
+                        var date = new Date(parseInt(jsonDate.substr(6)));
+                        var month = date.getMonth() + 1;
+                        return date.getDate() + '/' + month + '/' + date.getFullYear();
+                    }
+                },
+                { "data": "Head" },
+                { "data": "Invoice" },
+                { "data": "Ledger" },
+                 { "data": "Particular" },
+                  { "data": "Credit" },
+                   { "data": "Debit" },
+                {
+                    'data': 'Options',
+                    'render': function (data, type, row) {
+                        return '<a href=/TOIManagement/Daily/Edit/' + row.Id + '  class="glyphicon glyphicon-pencil" >' + '</a>' + ' |' +
+                            '<a href=/TOIManagement/Daily/Delete/' + row.Id + '  class="glyphicon glyphicon-remove" >' + '</a>'
+                    }
+                },
+            ],
+            "iDisplayLength": 50,
+            "searching": true,
+            bSortable: true
+        });
+
+        function format(d) {
+            var tbl = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="table table-hover table-striped table-condensed table-bordered tbldetl">';
+            tbl += '<tr>';
+            //tbl += "<td>Id</td>";
+            tbl += "<td>Name</td>";
+            tbl += "<td>Quantity</td>";
+            tbl += "<td>MRPPerUnit</td>";
+            tbl += "<td>ItemAmount</td>";
+            tbl += '</tr>';
+            var flag = false;
+            $.each(d.DailyItemViewModels, function (i) {
+                //   var Id = ''
+                var Name = '';
+                var Quantity = '';
+                var MRPPerUnit = '';
+                var ItemAmount = '';
+                $.each(d.DailyItemViewModels[i], function (key, val) {
+                    //if (key == 'Id') {
+                    //    Id = val;
+                    //}
+                    if (key == 'Name') {
+                        Name = val;
+                    }
+                    else if (key == 'Quantity') {
+                        Quantity = val;
+                    }
+                    else if (key == 'MRPPerUnit') {
+                        MRPPerUnit = val;
+                    }
+                    else if (key == 'ItemAmount') {
+                        ItemAmount = val;
+                    }
+                });
+                tbl += '<tr>';
+                //tbl += '<td>' + Id + ' </td>';
+                tbl += '<td>' + Name + ' </td>';
+                tbl += '<td>' + Quantity + ' </td>';
+                tbl += '<td>' + MRPPerUnit + ' </td>';
+                tbl += '<td>' + ItemAmount + ' </td>';
+                tbl += '</tr>';
+                flag = true;
+            });
+            if (flag == false) {
+                tbl += '<tr>';
+                tbl += '<td colspan="11">No record found</td>';
+                tbl += '</tr>';
+            }
+            tbl + '</table>';
+            return tbl;
+        }
+
+        $('#example2 tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+
+    });
+</script>
+
+<script>
+    //$(document).ready(function () {
+    //    var table = $('#example2').dataTable({
+    //        responsive: true,
+    //        "iDisplayLength": 25,
+    //        "aaSorting": []
+    //    });
+    //})
+
+    $(function () {
+        $('#datepickerto').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+        //   $('#datepickerto').daterangepicker();
+
+        $("#datepickerfrom").datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    });
+</script>
+
+<div class="box-inner">
+    <div class="box-content">
+        <h2>Daily List</h2>
+        <hr />
+        <table class="table table-bordered table-striped responsive">
+            <tbody>
+                <tr>
+                    <td class="col-md-5">
+                        <div class="form-group form-group-sm">
+                            <div class="col-md-8">
+                                @Html.DropDownList("HeadList", null, "--Select Head--", htmlAttributes: new { @class = "form-control" })
+                                @Html.DropDownList("Particular", null, "--Select Particular--", htmlAttributes: new { @class = "form-control" })
+                                @*@Html.DropDownListFor(model => model.StoreId, new SelectList(ViewBag.StoreId, "Value", "Text"), "-Select Store-", new { @class = "form-control" })*@
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-md-8">
+                                @*@Html.DropDownList("Products", null, "--Select Products--", htmlAttributes: new { @class = "form-control" })*@
+                                <input type="text" id="txtProduct" class="form-control" data-url="@Url.Action("GetProductsForAutocomplete", "Products" )" placeholder="Enter Product" />
+                                <input type="hidden" id="hdnProductId" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.CustomerName, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "ui-autocomplete-input form-control",
+                                   @placeholder = "Enter Party Name",
+                                   data_url = @Url.Action("GetCustomersForAutocomplete", "Customers")
+                               }
+                           })
+                                @Html.HiddenFor(c => c.ContactId)
+                                @*@Html.DropDownList("Contacts", null, "--Select Contact--", htmlAttributes: new { @class = "form-control" })*@
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col-md-2">
+                        <input type="text" id="datepickerto" class="form-control" placeholder="To Date">
+                    </td>
+                    <td class="col-md-2">
+                        <input type="text" id="datepickerfrom" class="form-control" placeholder="From Date">
+                    </td>
+                    <td>
+                        <button class="btn btn-xs btn-success" id="searchbtn">Search</button>
+                        @Html.ActionLink("View ALL", "Index", "Violations", new { @class = "btn btn-success btn-xs" })
+                        <input class="btn btn-xs btn-success" type="button" id="btnclear" value="Clear">
+                        <br />
+                        <input class="btn btn-xs btn-success" type="button" id="btnclear" value="Today's' Revenue">
+                        <input class="btn btn-xs btn-success" type="button" id="btnclear" value="Today's' Expense">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            @Html.ActionLink("New", "Create", null, new { @class = "btn btn-success btn-xs" })
+        </p>
+        <p class="text-danger">@TempData["MessageToClient"]</p>
+        <p class="text-success">@TempData["MessageToClientSuccess"]</p>
+        <div id="dailydata">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-condensed table-bordered" id="example2">
+                    <thead>
+                        <tr>
+                            <th class="">
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                <label>Head</label>
+                            </th>
+                            <th>
+                                <label>Invoice</label>
+                            </th>
+                            <th>
+                                <label>Ledger</label>
+                            </th>
+
+                            <th>
+                                Particular
+                            </th>
+                            <th>
+                                Credit
+                            </th>
+                            <th>
+                                Debit
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+
+
+                </table>
+
+            </div>
+        </div>
+        <div id="loadmoredata"></div>
+    </div>
+</div>
+
+<script>
+    $("#CustomerName").autocomplete({
+        minLength: 1,
+        source: function (request, response) {
+            var url = $(this.element).data("url");
+            $.getJSON(url, { term: request.term }, function (data) {
+                response(data)
+            })
+        },
+        appendTo: $(".modal-body"),
+        select: function (event, ui) {
+            $("#ContactId").val(ui.item.id);
+            $("#CustomerName").val(ui.item.FullName);
+            // $("#Net").val(ui.item.OutStanding);
+        },
+        change: function (event, ui) {
+            if (!ui.item) {
+                $(event.target).val("");
+            }
+        }
+
+    });
+
+    $("#txtProduct").autocomplete({
+        minLength: 1,
+        source: function (request, response) {
+            var url = $(this.element).data("url");
+            $.getJSON(url, { term: request.term }, function (data) {
+                response(data)
+            })
+        },
+        appendTo: $(".modal-body"),
+        select: function (event, ui) {
+            $("#hdnProductId").val(ui.item.Id);
+            $("#txtProduct").val(ui.item.Name);
+        },
+        change: function (event, ui) {
+            if (!ui.item) {
+                $(event.target).val("");
+            }
+        }
+    });
+</script>
+<script>
+    $('#searchbtn').on('click', function (e) {
+        var headName = $("#HeadList option:selected").text();
+        var particulartId = $("#Particular").val();
+        var contactId = $("#ContactId").val();
+        var productId = $("#hdnProductId").val();
+        var todate = $("#datepickerto").val();
+        var fromdate = $("#datepickerfrom").val();
+
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("DisplaySearchResults", "Daily")",
+            data: { headName: headName, particulartId: particulartId, contactId: contactId, productId: productId, todate: todate, fromdate: fromdate },
+           // dataType: 'json',
+            success: function (data) {
+                console.log('success', data);
+                $("#dailydata").html(data.modelString);
+
+            },
+            error: function (exception) {
+                //alert('Exeption:' + exception);
+            }
+        });
+        e.preventDefault();
+    });
+
+    $(document)
+        .ready(function () {
+            $("#btnclear")
+                .click(function () {
+                    $("#ViolationCategories").val("");
+                    $("#Countries").val("");
+                    $("#Users").val("");
+                    $("#datepickerto").val("");
+                    $("#datepickerfrom").val("");
+                });
+
+        });
+    //$.get(action, null, function (data) {
+    //    $('#someDiv').html(data);
+    //}, 'html');
+</script>

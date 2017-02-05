@@ -1,0 +1,45 @@
+﻿@{ 
+    Layout = "~/Areas/TOIManagement/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content" class="col-lg-10 col-sm-10">
+
+    <h2>Quick EMail</h2>
+    <hr />
+    <div class="form-horizontal">
+        <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">To :</span>
+            <input type="text" id="to" tabindex="1" class="form-control" placeholder="Email" aria-describedby="sizing-addon2">
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon" id="sizing-addon2">CC :</span>
+            <input type="text" id="cc" tabindex="2" class="form-control placeholder=" subject" aria-describedby="sizing-addon2">
+        </div>
+        <br />
+        <div class="input-group ">
+            <span class="input-group-addon" id="sizing-addon2">Bcc :</span>
+            @*<label class="" for="bcc">Bcc:</label>*@
+            <input type="text" class="form-control" id="bcc" tabindex="2" />
+        </div>
+        <br />
+        <div class="input-group ">
+            <span class="input-group-addon" id="sizing-addon2">Subject :</span>
+            <input type="text" id="subject" tabindex="1" class="form-control placeholder=" subject" aria-describedby="sizing-addon2">
+        </div>
+        <div class="compose-editor" style="margin-top:10px;">
+            <textarea id="text-editor" class="ckeditor" placeholder="Enter text ..." rows="25"></textarea>
+        </div>
+        <div class="compose-editor">
+            <input type="file" class="default" />
+        </div>
+    </div>
+
+    <div class="bottom">
+        <button class="btn btn-primary">Send</button>
+        <button class="btn btn-success" type="button">Save</button>
+    </div>
+</div>
+
+
+
